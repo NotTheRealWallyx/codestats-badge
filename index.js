@@ -22,16 +22,17 @@ function generateSVG(username, totalXP, topLangs) {
     const progressToNext = nextLevelXP - totalXP;
 
     const langLines = topLangs.map((lang, i) => `
-    <text x="10" y="${60 + i * 20}" font-size="14" fill="#c9d1d9">${lang.name}: ${lang.xp} XP (Level ${lang.level})</text>`).join('');
+    <text x="10" y="${80 + i * 20}" font-size="14" fill="#c9d1d9">${lang.name}: Level ${lang.level}</text>`).join('');
 
     return `
-    <svg width="400" height="${100 + topLangs.length * 20}" xmlns="http://www.w3.org/2000/svg">
+    <svg width="400" height="${120 + topLangs.length * 20}" xmlns="http://www.w3.org/2000/svg">
       <style>
         text { font-family: Arial, sans-serif; }
       </style>
       <rect width="100%" height="100%" fill="#0d1117"/>
-      <text x="10" y="30" font-size="16" fill="#58a6ff">${username}'s Code::Stats</text>
-      <text x="10" y="45" font-size="14" fill="#8b949e">Total XP: ${totalXP} (Level ${level} – ${progressToNext} XP to next)</text>
+      <text x="10" y="25" font-size="16" fill="#58a6ff">Code::Stats</text>
+      <text x="10" y="45" font-size="14" fill="#c9d1d9">${username} - Level ${level} – ${progressToNext} XP to next</text>
+      <text x="10" y="65" font-size="14" fill="#8b949e">Total XP: ${totalXP}</text>
       ${langLines}
     </svg>`;
 }
