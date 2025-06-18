@@ -40,7 +40,7 @@ npm install
 ### 2. Run the server
 
 ```bash
-node index.js
+npm run start
 ```
 
 Then open:
