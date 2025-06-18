@@ -1,6 +1,6 @@
-const express = require('express');
-const axios = require('axios');
-const { generateSVG, calculateLevel } = require('./svg');
+import express from 'express';
+import axios from 'axios';
+import { generateSVG, calculateLevel } from './svg.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;

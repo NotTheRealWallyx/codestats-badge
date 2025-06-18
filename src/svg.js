@@ -1,18 +1,18 @@
-const LEVEL_FACTOR = 0.025;
+export const LEVEL_FACTOR = 0.025;
 
-function calculateLevel(xp) {
+export function calculateLevel(xp) {
     return Math.floor(LEVEL_FACTOR * Math.sqrt(xp));
 }
 
-function xpForLevel(level) {
+export function xpForLevel(level) {
     return Math.pow(level / LEVEL_FACTOR, 2);
 }
 
-function formatNumber(num) {
+export function formatNumber(num) {
     return num.toLocaleString();
 }
 
-function generateSVG(username, totalXP, topLangs) {
+export function generateSVG(username, totalXP, topLangs) {
     const level = calculateLevel(totalXP);
     const currentLevelXP = xpForLevel(level);
     const nextLevelXP = xpForLevel(level + 1);
@@ -51,5 +51,3 @@ function generateSVG(username, totalXP, topLangs) {
       ${langLines}
     </svg>`;
 }
-
-module.exports = { generateSVG, calculateLevel };
