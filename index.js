@@ -7,25 +7,28 @@ const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const LEVEL_FACTOR = 0.025;
+
 function calculateLevel(xp) {
-    return Math.floor((Math.sqrt(200 * xp + 2500) - 50) / 100);
+    return Math.floor(LEVEL_FACTOR * Math.sqrt(xp));
 }
 
 function xpForLevel(level) {
-    return 50 * level * (level - 1);
+    return Math.pow(level / LEVEL_FACTOR, 2);
 }
 
 function generateSVG(username, totalXP, topLangs) {
     const level = calculateLevel(totalXP);
     const currentLevelXP = xpForLevel(level);
     const nextLevelXP = xpForLevel(level + 1);
-    const progressToNext = nextLevelXP - totalXP;
+    const progressToNext = Math.max(0, nextLevelXP - totalXP);
+    const progressPercentage = Math.min(100, Math.max(0, ((totalXP - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100));
 
     const langLines = topLangs.map((lang, i) => `
-    <text x="10" y="${80 + i * 20}" font-size="14" fill="#c9d1d9">${lang.name}: Level ${lang.level}</text>`).join('');
+    <text x="10" y="${100 + i * 20}" font-size="14" fill="#c9d1d9">${lang.name}: Level ${lang.level}</text>`).join('');
 
     return `
-    <svg width="400" height="${120 + topLangs.length * 20}" xmlns="http://www.w3.org/2000/svg">
+    <svg width="400" height="${140 + topLangs.length * 20}" xmlns="http://www.w3.org/2000/svg">
       <style>
         text { font-family: Arial, sans-serif; }
       </style>
@@ -33,6 +36,11 @@ function generateSVG(username, totalXP, topLangs) {
       <text x="10" y="25" font-size="16" fill="#58a6ff">Code::Stats</text>
       <text x="10" y="45" font-size="14" fill="#c9d1d9">${username} - Level ${level} – ${progressToNext} XP to next</text>
       <text x="10" y="65" font-size="14" fill="#8b949e">Total XP: ${totalXP}</text>
+
+      <!-- Progress bar -->
+      <rect x="10" y="75" width="380" height="10" fill="#30363d" rx="5"/>
+      <rect x="10" y="75" width="${Math.round(3.8 * progressPercentage)}" height="10" fill="#58a6ff" rx="5"/>
+
       ${langLines}
     </svg>`;
 }
