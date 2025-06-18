@@ -1,9 +1,3 @@
-const express = require('express');
-const axios = require('axios');
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
 const LEVEL_FACTOR = 0.025;
 
 function calculateLevel(xp) {
@@ -25,7 +19,6 @@ function generateSVG(username, totalXP, topLangs) {
     const progressToNext = Math.max(0, nextLevelXP - totalXP);
     const progressPercentage = Math.min(100, Math.max(0, ((totalXP - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100));
 
-    // 2 columns, 3 rows
     const colWidth = 190;
     const rowHeight = 20;
     const langLines = topLangs.map((lang, i) => {
@@ -54,29 +47,4 @@ function generateSVG(username, totalXP, topLangs) {
     </svg>`;
 }
 
-app.get('/api/code-stats', async (req, res) => {
-    const username = req.query.user;
-    if (!username) return res.status(400).send('Missing ?user=username');
-
-    try {
-        const { data } = await axios.get(`https://codestats.net/api/users/${username}`);
-        const totalXP = data.total_xp;
-
-        const languages = Object.entries(data.languages)
-            .map(([name, info]) => ({ name, xp: info.xps, level: calculateLevel(info.xps) }))
-            .sort((a, b) => b.xp - a.xp)
-            .slice(0, 6);
-
-        const svg = generateSVG(username, totalXP, languages);
-
-        res.setHeader('Content-Type', 'image/svg+xml');
-        res.setHeader('Cache-Control', 's-maxage=3600');
-        res.send(svg);
-    } catch (error) {
-        res.status(500).send('Error fetching user data from Code::Stats');
-    }
-});
-
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-});
+module.exports = { generateSVG, calculateLevel };
