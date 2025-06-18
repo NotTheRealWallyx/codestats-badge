@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 app.get('/api/code-stats', async (req, res) => {
     const username = req.query.user;
-    const limit = Math.max(1, Math.min(20, parseInt(req.query.limit) || 6)); // default 6, min 1, max 20
+    const limit = Math.max(1, Math.min(20, parseInt(req.query.limit) || 6));
     if (!username) return res.status(400).send('Missing ?user=username');
 
     try {

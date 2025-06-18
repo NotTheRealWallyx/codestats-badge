@@ -5,10 +5,14 @@
     "express": "^5.1.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.0"
+    "eslint": "^9.29.0",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5"
   },
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
   }
 }
