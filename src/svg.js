@@ -21,16 +21,21 @@ function generateSVG(username, totalXP, topLangs) {
 
     const colWidth = 190;
     const rowHeight = 20;
+    const numRows = Math.ceil(topLangs.length / 2);
+    const langStartY = 115;
+    const baseHeight = langStartY + (numRows > 0 ? (numRows - 1) * rowHeight : 0) + 25;
+    const svgHeight = baseHeight;
+
     const langLines = topLangs.map((lang, i) => {
         const col = i % 2;
         const row = Math.floor(i / 2);
         const x = 10 + col * colWidth;
-        const y = 115 + row * rowHeight;
+        const y = langStartY + row * rowHeight;
         return `<text x="${x}" y="${y}" font-size="14" fill="#c9d1d9">${lang.name}: Level ${lang.level}</text>`;
     }).join('');
 
     return `
-    <svg width="400" height="${140 + 3 * rowHeight}" xmlns="http://www.w3.org/2000/svg">
+    <svg width="400" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
       <style>
         text { font-family: Arial, sans-serif; }
         .title { font-weight: bold; }
