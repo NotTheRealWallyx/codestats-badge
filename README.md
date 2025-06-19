@@ -72,12 +72,15 @@ This project works great on:
 
 ---
 
-## 🧠 Customization Ideas
+## 🧠 Next additions
 
-- Theme support (light/dark)
+- Light/dark theme toggle via query parameter
 - Font choices
-- Limit number of languages shown (`?limit=3`)
-- Add GitHub Action to regenerate daily static SVG
+- Customizable color palette via query parameters
+- Option to hide/show progress bar
+- Option to display language XP instead of level
+- Support for compact/minimal badge layout
+- Add last updated timestamp
 
 ---
 
