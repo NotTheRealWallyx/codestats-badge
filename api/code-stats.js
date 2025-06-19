@@ -9,6 +9,8 @@ export default async function handler(req, res) {
   try {
     const svg = await getCodeStatsSVG(username, limit);
     res.setHeader('Content-Type', 'image/svg+xml');
+    res.setHeader('Content-Disposition', 'inline; filename="badge.svg"');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Cache-Control', 's-maxage=3600');
     res.send(svg);
   } catch (error) {

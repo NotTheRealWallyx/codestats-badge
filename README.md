@@ -1,5 +1,8 @@
 # codestats-badge
 
+[![CodeFactor](https://www.codefactor.io/repository/github/nottherealwallyx/codestats-badge/badge)](https://www.codefactor.io/repository/github/nottherealwallyx/codestats-badge)
+[![CI](https://github.com/NotTheRealWallyx/codestats-badge/actions/workflows/ci.yml/badge.svg)](https://github.com/NotTheRealWallyx/codestats-badge/actions/workflows/ci.yml)
+
 📊 A dynamic SVG badge generator for [Code::Stats](https://codestats.net) profiles, perfect for embedding your XP and top languages in your GitHub README.
 
 ---
@@ -26,6 +29,8 @@
 ```markdown
 ![Code::Stats](https://your-domain.com/api/code-stats?user=yourusername)
 ```
+
+![Code::Stats](https://codestats-badge-ehrxwm47k-nottherealwallyxs-projects.vercel.app/api/code-stats?user=Wallyx)
 
 ---
 
