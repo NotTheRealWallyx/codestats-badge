@@ -91,7 +91,7 @@ This project works great on:
 
 ## 📄 License
 
-MIT
+This project is licensed under the GNU GPL v3.
 
 ---
 
