@@ -3,7 +3,7 @@ name: CI
 on: push
 
 jobs:
-  lint-and-format:
+  cicd:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,7 +14,7 @@ jobs:
       - run: npm install
       - run: npm run lint
       - run: npm run format -- --check
-      - run: npm test:coverage
+      - run: npm run test:coverage
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
