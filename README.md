@@ -34,6 +34,19 @@
 
 ---
 
+## 🎨 Customization
+
+You can control the appearance of your badge using query parameters:
+
+- **Show/hide progress bar:**  
+  Use `showProgressBar=false` to hide the progress bar.  
+  Example:
+  ```
+  /api/code-stats?user=yourusername&showProgressBar=false
+  ```
+
+---
+
 ## 💻 Local Development
 
 This project supports both local Express server and Vercel serverless function usage.
@@ -82,7 +95,6 @@ This project works great on:
 - Light/dark theme toggle via query parameter
 - Font choices
 - Customizable color palette via query parameters
-- Option to hide/show progress bar
 - Option to display language XP instead of level
 - Support for compact/minimal badge layout
 - Add last updated timestamp
