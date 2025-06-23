@@ -1,0 +1,30 @@
+name: Feature Request
+description: Suggest a new feature or improvement for codestats-badge.
+title: "[FEATURE] "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a feature! Please provide the following details.
+
+  - type: input
+    id: feature
+    attributes:
+      label: Feature Summary
+      description: Provide a brief summary of the feature.
+      placeholder: "e.g., Add option to customize styles for badges"
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Feature Details
+      description: Provide a detailed description of the feature.
+      placeholder: "e.g., The feature should allow users to customize the styles of badges with different colors and fonts."
+
+  - type: textarea
+    id: benefits
+    attributes:
+      label: Benefits
+      description: Explain how this feature will benefit users.
+      placeholder: "e.g. This feature will allow users to personalize their badges, making them more visually appealing and unique."

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { generateSVG, calculateLevel } from './svg.js';
 
-export async function getCodeStatsSVG(username, limit = 6) {
+export async function getCodeStatsSVG(username, limit = 6, showProgressBar = true) {
   if (!username) throw new Error('Missing username');
   const langLimit = Math.max(1, Math.min(20, parseInt(limit) || 6));
   const { data } = await axios.get(
@@ -16,5 +16,5 @@ export async function getCodeStatsSVG(username, limit = 6) {
     }))
     .sort((a, b) => b.xp - a.xp)
     .slice(0, langLimit);
-  return generateSVG(username, totalXP, languages);
+  return generateSVG(username, totalXP, languages, showProgressBar);
 }
