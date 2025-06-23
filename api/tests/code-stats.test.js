@@ -44,7 +44,7 @@ describe('api/code-stats.js handler', () => {
     const req = { query: { user: 'testuser', limit: '2' } };
     const res = createRes();
     await handler(req, res);
-    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', '2');
+    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', '2', true);
     expect(res.setHeader).toHaveBeenCalledWith('Content-Type', 'image/svg+xml');
     expect(res.setHeader).toHaveBeenCalledWith('Content-Disposition', 'inline; filename="badge.svg"');
     expect(res.setHeader).toHaveBeenCalledWith('X-Content-Type-Options', 'nosniff');
@@ -60,5 +60,29 @@ describe('api/code-stats.js handler', () => {
     await handler(req, res);
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.send).toHaveBeenCalledWith('Error fetching user data from Code::Stats');
+  });
+
+  it('passes showProgressBar=false as boolean false', async () => {
+    getCodeStatsSVG.mockResolvedValue('<svg>test</svg>');
+    const req = { query: { user: 'testuser', showProgressBar: 'false' } };
+    const res = createRes();
+    await handler(req, res);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', undefined, false);
+  });
+
+  it('passes showProgressBar=true as boolean true', async () => {
+    getCodeStatsSVG.mockResolvedValue('<svg>test</svg>');
+    const req = { query: { user: 'testuser', showProgressBar: 'true' } };
+    const res = createRes();
+    await handler(req, res);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', undefined, true);
+  });
+
+  it('defaults showProgressBar to true if not set', async () => {
+    getCodeStatsSVG.mockResolvedValue('<svg>test</svg>');
+    const req = { query: { user: 'testuser' } };
+    const res = createRes();
+    await handler(req, res);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', undefined, true);
   });
 });
