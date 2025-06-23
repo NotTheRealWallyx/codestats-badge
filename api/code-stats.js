@@ -2,12 +2,13 @@ import { getCodeStatsSVG } from '../src/codeStatsService.js';
 
 export default async function handler(req, res) {
   const { user: username, limit } = req.query;
+  const showProgressBar = req.query.showProgressBar !== 'false';
   if (!username) {
     res.status(400).send('Missing ?user=username');
     return;
   }
   try {
-    const svg = await getCodeStatsSVG(username, limit);
+    const svg = await getCodeStatsSVG(username, limit, showProgressBar);
     res.setHeader('Content-Type', 'image/svg+xml');
     res.setHeader('Content-Disposition', 'inline; filename="badge.svg"');
     res.setHeader('X-Content-Type-Options', 'nosniff');
