@@ -5,6 +5,7 @@
     "express": "^5.1.0"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^3.2.4",
     "eslint": "^9.29.0",
     "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
