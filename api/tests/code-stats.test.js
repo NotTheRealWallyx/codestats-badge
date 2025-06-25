@@ -1,8 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-// Mock getCodeStatsSVG before importing handler
+// Mock getCodeStatsSVG and validateTheme before importing handler
 vi.mock('../../src/codeStatsService.js', () => ({
   getCodeStatsSVG: vi.fn(),
+  validateTheme: vi.fn((theme) => theme === 'light' || theme === 'dark'),
 }));
 
 import { getCodeStatsSVG } from '../../src/codeStatsService.js';
@@ -92,5 +93,13 @@ describe('api/code-stats.js handler', () => {
     const res = createRes();
     await handler(req, res);
     expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', { showProgressBar: true, theme: 'light' });
+  });
+
+  it('returns 400 if theme is invalid', async () => {
+    const req = { query: { user: 'testuser', theme: 'blue' } };
+    const res = createRes();
+    await handler(req, res);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledWith('Invalid theme. Only "light" or "dark" are supported.');
   });
 });

@@ -29,3 +29,7 @@ export async function getCodeStatsSVG(username, options = {}) {
     .slice(0, langLimit);
   return generateSVG(username, totalXP, languages, { showProgressBar, theme });
 }
+
+export function validateTheme(theme) {
+  return theme === 'light' || theme === 'dark';
+}

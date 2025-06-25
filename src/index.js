@@ -1,19 +1,25 @@
 import express from 'express';
 import { getCodeStatsSVG } from './codeStatsService.js';
+import { validateRequest } from './utils.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.get('/api/code-stats', async (req, res) => {
-  const username = req.query.user;
-  const { limit, showProgressBar, theme } = req.query;
-  if (!username) return res.status(400).send('Missing ?user=username');
+  const { user: username, limit, showProgressBar, theme } = req.query;
+  const themeValue = theme || 'dark';
+
+  const validation = validateRequest({ username, theme: themeValue });
+  if (!validation.valid) {
+    res.status(validation.status).send(validation.message);
+    return;
+  }
 
   try {
     const svg = await getCodeStatsSVG(username, {
       limit,
       showProgressBar: showProgressBar !== 'false',
-      theme: theme || 'dark'
+      theme: themeValue
     });
     res.setHeader('Content-Type', 'image/svg+xml');
     res.setHeader('Cache-Control', 's-maxage=3600');
