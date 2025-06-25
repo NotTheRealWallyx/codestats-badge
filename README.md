@@ -100,7 +100,6 @@ This project works great on:
 
 ## 🧠 Next additions
 
-- Light/dark theme toggle via query parameter
 - Font choices
 - Customizable color palette via query parameters
 - Option to display language XP instead of level
