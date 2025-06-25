@@ -41,8 +41,16 @@ You can control the appearance of your badge using query parameters:
 - **Show/hide progress bar:**  
   Use `showProgressBar=false` to hide the progress bar.  
   Example:
+
   ```
   /api/code-stats?user=yourusername&showProgressBar=false
+  ```
+
+- **Theme (light or dark):**  
+  Use `theme=light` for a light background, or `theme=dark` for a dark background (default is dark).  
+  Example:
+  ```
+  /api/code-stats?user=yourusername&theme=light
   ```
 
 ---
@@ -92,7 +100,6 @@ This project works great on:
 
 ## 🧠 Next additions
 
-- Light/dark theme toggle via query parameter
 - Font choices
 - Customizable color palette via query parameters
 - Option to display language XP instead of level

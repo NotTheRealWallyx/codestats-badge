@@ -12,7 +12,35 @@ export function formatNumber(num) {
     return num.toLocaleString();
 }
 
-export function generateSVG(username, totalXP, topLangs, showProgressBar = true) {
+const THEMES = {
+    dark: {
+        background: "#0d1117",
+        border: "#fff",
+        title: "#58a6ff",
+        text: "#c9d1d9",
+        label: "#8b949e",
+        progressBg: "#30363d",
+        progress: "#58a6ff"
+    },
+    light: {
+        background: "#fff",
+        border: "#0d1117",
+        title: "#0969da",
+        text: "#24292f",
+        label: "#57606a",
+        progressBg: "#d0d7de",
+        progress: "#0969da"
+    }
+};
+
+export function generateSVG(username, totalXP, topLangs, style = {}) {
+    const {
+        showProgressBar = true,
+        theme = 'dark'
+    } = style;
+
+    const palette = THEMES[theme] || THEMES.dark;
+
     const level = calculateLevel(totalXP);
     const currentLevelXP = xpForLevel(level);
     const nextLevelXP = xpForLevel(level + 1);
@@ -40,7 +68,7 @@ export function generateSVG(username, totalXP, topLangs, showProgressBar = true)
             const row = Math.floor(i / 2);
             const x = 10 + col * colWidth;
             const y = langStartY + row * rowHeight;
-            return `<text x="${x}" y="${y}" font-size="14" fill="#c9d1d9" class="lang-line">${lang.name}: Level ${lang.level}</text>`;
+            return `<text x="${x}" y="${y}" font-size="14" fill="${palette.text}" class="lang-line">${lang.name}: Level ${lang.level}</text>`;
         })
         .join('');
 
@@ -50,13 +78,13 @@ export function generateSVG(username, totalXP, topLangs, showProgressBar = true)
         text { font-family: Arial, sans-serif; }
         .title { font-weight: bold; }
       </style>
-      <rect width="100%" height="100%" fill="#0d1117" stroke="#fff" stroke-width="1" rx="5"/>
-      <text x="50%" y="25" font-size="16" fill="#58a6ff" text-anchor="middle" class="title">Code::Stats</text>
-      <text x="50%" y="45" font-size="14" fill="#c9d1d9" text-anchor="middle">${username} (Level ${level} – ${formatNumber(progressToNext)} XP to next)</text>
-      <text x="10" y="65" font-size="14" fill="#8b949e">Total XP: ${formatNumber(totalXP)}</text>
+      <rect width="100%" height="100%" fill="${palette.background}" stroke="${palette.border}" stroke-width="1" rx="5"/>
+      <text x="50%" y="25" font-size="16" fill="${palette.title}" text-anchor="middle" class="title">Code::Stats</text>
+      <text x="50%" y="45" font-size="14" fill="${palette.text}" text-anchor="middle">${username} (Level ${level} – ${formatNumber(progressToNext)} XP to next)</text>
+      <text x="10" y="65" font-size="14" fill="${palette.label}">Total XP: ${formatNumber(totalXP)}</text>
       ${showProgressBar
-            ? `<rect x="10" y="75" width="380" height="10" fill="#30363d" rx="5"/>
-             <rect x="10" y="75" width="${Math.round(3.8 * progressPercentage)}" height="10" fill="#58a6ff" rx="5"/>`
+            ? `<rect x="10" y="75" width="380" height="10" fill="${palette.progressBg}" rx="5"/>
+             <rect x="10" y="75" width="${Math.round(3.8 * progressPercentage)}" height="10" fill="${palette.progress}" rx="5"/>`
             : ''
         }
       ${langLines}

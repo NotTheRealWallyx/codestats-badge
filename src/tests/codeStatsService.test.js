@@ -35,7 +35,7 @@ describe('getCodeStatsSVG', () => {
 
     it('should limit the number of languages in the SVG', async () => {
         axios.get.mockResolvedValueOnce({ data: mockUserData });
-        const svg = await getCodeStatsSVG('testuser', 2);
+        const svg = await getCodeStatsSVG('testuser', { limit: 2 });
         const langLines = svg.match(/class="lang-line"/g) || [];
         expect(langLines.length).toBe(2);
     });
