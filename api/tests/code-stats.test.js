@@ -44,7 +44,7 @@ describe('api/code-stats.js handler', () => {
     const req = { query: { user: 'testuser', limit: '2' } };
     const res = createRes();
     await handler(req, res);
-    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', '2', true);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', { limit: '2', showProgressBar: true, theme: 'dark' });
     expect(res.setHeader).toHaveBeenCalledWith('Content-Type', 'image/svg+xml');
     expect(res.setHeader).toHaveBeenCalledWith('Content-Disposition', 'inline; filename="badge.svg"');
     expect(res.setHeader).toHaveBeenCalledWith('X-Content-Type-Options', 'nosniff');
@@ -67,7 +67,7 @@ describe('api/code-stats.js handler', () => {
     const req = { query: { user: 'testuser', showProgressBar: 'false' } };
     const res = createRes();
     await handler(req, res);
-    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', undefined, false);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', { showProgressBar: false, theme: 'dark' });
   });
 
   it('passes showProgressBar=true as boolean true', async () => {
@@ -75,7 +75,7 @@ describe('api/code-stats.js handler', () => {
     const req = { query: { user: 'testuser', showProgressBar: 'true' } };
     const res = createRes();
     await handler(req, res);
-    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', undefined, true);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', { showProgressBar: true, theme: 'dark' });
   });
 
   it('defaults showProgressBar to true if not set', async () => {
@@ -83,6 +83,14 @@ describe('api/code-stats.js handler', () => {
     const req = { query: { user: 'testuser' } };
     const res = createRes();
     await handler(req, res);
-    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', undefined, true);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', { showProgressBar: true, theme: 'dark' });
+  });
+
+  it('passes theme if provided', async () => {
+    getCodeStatsSVG.mockResolvedValue('<svg>test</svg>');
+    const req = { query: { user: 'testuser', theme: 'light' } };
+    const res = createRes();
+    await handler(req, res);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith('testuser', { showProgressBar: true, theme: 'light' });
   });
 });

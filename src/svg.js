@@ -12,7 +12,12 @@ export function formatNumber(num) {
     return num.toLocaleString();
 }
 
-export function generateSVG(username, totalXP, topLangs, showProgressBar = true) {
+export function generateSVG(username, totalXP, topLangs, style = {}) {
+    const {
+        showProgressBar = true,
+        theme = 'dark'
+    } = style;
+
     const level = calculateLevel(totalXP);
     const currentLevelXP = xpForLevel(level);
     const nextLevelXP = xpForLevel(level + 1);

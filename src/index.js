@@ -6,12 +6,15 @@ const PORT = process.env.PORT || 3000;
 
 app.get('/api/code-stats', async (req, res) => {
   const username = req.query.user;
-  const limit = req.query.limit;
-  const showProgressBar = req.query.showProgressBar !== 'false';
+  const { limit, showProgressBar, theme } = req.query;
   if (!username) return res.status(400).send('Missing ?user=username');
 
   try {
-    const svg = await getCodeStatsSVG(username, limit, showProgressBar);
+    const svg = await getCodeStatsSVG(username, {
+      limit,
+      showProgressBar: showProgressBar !== 'false',
+      theme: theme || 'dark'
+    });
     res.setHeader('Content-Type', 'image/svg+xml');
     res.setHeader('Cache-Control', 's-maxage=3600');
     res.send(svg);
@@ -20,6 +23,10 @@ app.get('/api/code-stats', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+  });
+}
+
+export default app;
