@@ -1,22 +1,13 @@
-import axios from 'axios';
-import { generateSVG, calculateLevel } from './svg.js';
-
-// type BadgeStyle = {
-//   showProgressBar?: boolean;
-//   theme?: 'light' | 'dark';
-// }
+import axios from "axios";
+import { calculateLevel, generateSVG } from "./svg.js";
 
 export async function getCodeStatsSVG(username, options = {}) {
-  if (!username) throw new Error('Missing username');
-  const {
-    limit = 6,
-    showProgressBar = true,
-    theme = 'dark'
-  } = options;
+  if (!username) throw new Error("Missing username");
+  const { limit = 6, showProgressBar = true, theme = "dark" } = options;
 
   const langLimit = Math.max(1, Math.min(20, parseInt(limit) || 6));
   const { data } = await axios.get(
-    `https://codestats.net/api/users/${username}`
+    `https://codestats.net/api/users/${username}`,
   );
   const totalXP = data.total_xp;
   const languages = Object.entries(data.languages)
@@ -31,5 +22,5 @@ export async function getCodeStatsSVG(username, options = {}) {
 }
 
 export function validateTheme(theme) {
-  return theme === 'light' || theme === 'dark';
+  return theme === "light" || theme === "dark";
 }

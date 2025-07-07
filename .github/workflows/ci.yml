@@ -12,8 +12,8 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-      - run: npm run lint
-      - run: npm run format -- --check
+      - name: Run biomejs
+        run: npm run ci
       - run: npm run test:coverage
 
       - name: Upload coverage reports to Codecov
