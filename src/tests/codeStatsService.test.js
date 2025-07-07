@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getCodeStatsSVG } from "../codeStatsService.js";
 import axios from "axios";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { getCodeStatsSVG } from "../codeStatsService.js";
 
 vi.mock("axios");
 

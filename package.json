@@ -17,7 +17,7 @@
 		"start": "node src/index.js",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
-		"format:check": "biome check .",
+		"ci": "biome ci",
 		"test": "vitest run",
 		"test:coverage": "vitest run --coverage"
 	}

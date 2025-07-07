@@ -1,10 +1,5 @@
 import axios from "axios";
-import { generateSVG, calculateLevel } from "./svg.js";
-
-// type BadgeStyle = {
-//   showProgressBar?: boolean;
-//   theme?: 'light' | 'dark';
-// }
+import { calculateLevel, generateSVG } from "./svg.js";
 
 export async function getCodeStatsSVG(username, options = {}) {
 	if (!username) throw new Error("Missing username");

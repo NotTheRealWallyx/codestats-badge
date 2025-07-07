@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { validateTheme, validateRequest } from "../utils.js";
+import { describe, expect, it } from "vitest";
+import { validateRequest, validateTheme } from "../utils.js";
 
 describe("validateTheme", () => {
 	it('returns true for "light"', () => {
