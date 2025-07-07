@@ -1,7 +1,7 @@
 # codestats-badge
 
 [![CodeFactor](https://www.codefactor.io/repository/github/nottherealwallyx/codestats-badge/badge)](https://www.codefactor.io/repository/github/nottherealwallyx/codestats-badge)
-[![CI](https://github.com/NotTheRealWallyx/codestats-badge/actions/workflows/ci.yml/badge.svg)](https://github.com/NotTheRealWallyx/codestats-badge/actions/workflows/ci.yml)
+[![CI](https://github.com/NotTheRealWallyx/codestats-badge/actions/workflows/ci.yml/badge.svg)](https://github.com/NotTheRealWallyx/codestats-badge/actions/workflows/ci.yml) [![codecov](https://codecov.io/github/NotTheRealWallyx/codestats-badge/graph/badge.svg?token=RW1A4NQTRT)](https://codecov.io/github/NotTheRealWallyx/codestats-badge)
 
 📊 A dynamic SVG badge generator for [Code::Stats](https://codestats.net) profiles, perfect for embedding your XP and top languages in your GitHub README.
 
