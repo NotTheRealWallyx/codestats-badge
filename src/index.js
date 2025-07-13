@@ -6,7 +6,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.get("/api/code-stats", async (req, res) => {
-  const { user: username, limit, showProgressBar, theme, showLangXP } = req.query;
+  const {
+    user: username,
+    limit,
+    showProgressBar,
+    theme,
+    showLangXP,
+  } = req.query;
   const themeValue = theme || "dark";
 
   const validation = validateRequest({ username, theme: themeValue });
