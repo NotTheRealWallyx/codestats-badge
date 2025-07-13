@@ -1,12 +1,13 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { describe, it, expect, vi, beforeEach } from "vitest";
 vi.mock("../codeStatsService.js");
 vi.mock("../utils.js", () => ({
     validateRequest: vi.fn(() => ({ valid: true })),
 }));
+
 import request from "supertest";
-import app from "../index.js";
 import * as codeStatsService from "../codeStatsService.js";
+import app from "../index.js";
 
 describe("/api/code-stats endpoint", () => {
     beforeEach(() => {
@@ -18,13 +19,18 @@ describe("/api/code-stats endpoint", () => {
         const res = await request(app).get("/api/code-stats?user=testuser");
         expect(res.status).toBe(200);
         expect(res.headers["content-type"]).toContain("image/svg+xml");
-        const svgString = res.text || (res.body && res.body.toString && res.body.toString());
+        const svgString =
+            res.text || (res.body?.toString?.());
         expect(svgString).toContain("<svg");
     });
 
     it("should return error if validateRequest fails", async () => {
         const { validateRequest } = await import("../utils.js");
-        validateRequest.mockReturnValue({ valid: false, status: 400, message: "Invalid" });
+        validateRequest.mockReturnValue({
+            valid: false,
+            status: 400,
+            message: "Invalid",
+        });
         const res = await request(app).get("/api/code-stats?user=");
         expect(res.status).toBe(400);
         expect(res.text).toBe("Invalid");
