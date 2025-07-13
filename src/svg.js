@@ -34,7 +34,7 @@ const THEMES = {
 };
 
 export function generateSVG(username, totalXP, topLangs, style = {}) {
-  const { showProgressBar = true, theme = "dark" } = style;
+  const { showProgressBar = true, theme = "dark", showLangXP = false } = style;
 
   const palette = THEMES[theme] || THEMES.dark;
 
@@ -65,7 +65,10 @@ export function generateSVG(username, totalXP, topLangs, style = {}) {
       const row = Math.floor(i / 2);
       const x = 10 + col * colWidth;
       const y = langStartY + row * rowHeight;
-      return `<text x="${x}" y="${y}" font-size="14" fill="${palette.text}" class="lang-line">${lang.name}: Level ${lang.level}</text>`;
+      const value = showLangXP
+        ? `${formatNumber(lang.xp)} XP`
+        : `Level ${lang.level}`;
+      return `<text x="${x}" y="${y}" font-size="14" fill="${palette.text}" class="lang-line">${lang.name}: ${value}</text>`;
     })
     .join("");
 

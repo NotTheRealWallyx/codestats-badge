@@ -2,7 +2,13 @@ import { getCodeStatsSVG } from "../src/codeStatsService.js";
 import { validateRequest } from "../src/utils.js";
 
 export default async function handler(req, res) {
-  const { user: username, limit, showProgressBar, theme } = req.query;
+  const {
+    user: username,
+    limit,
+    showProgressBar,
+    theme,
+    showLangXP,
+  } = req.query;
   const themeValue = theme || "dark";
 
   const validation = validateRequest({ username, theme: themeValue });
@@ -16,6 +22,7 @@ export default async function handler(req, res) {
       limit,
       showProgressBar: showProgressBar !== "false",
       theme: themeValue,
+      showLangXP: showLangXP === "true",
     });
     res.setHeader("Content-Type", "image/svg+xml");
     res.setHeader("Content-Disposition", 'inline; filename="badge.svg"');

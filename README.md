@@ -46,6 +46,14 @@ You can control the appearance of your badge using query parameters:
   /api/code-stats?user=yourusername&showProgressBar=false
   ```
 
+- **Display language XP instead of level:**  
+  Use `showLangXP=true` to show XP for each language instead of the level.  
+  Example:
+
+  ```
+  /api/code-stats?user=yourusername&showLangXP=true
+  ```
+
 - **Theme (light or dark):**  
   Use `theme=light` for a light background, or `theme=dark` for a dark background (default is dark).  
   Example:
@@ -102,7 +110,6 @@ This project works great on:
 
 - Font choices
 - Customizable color palette via query parameters
-- Option to display language XP instead of level
 - Support for compact/minimal badge layout
 - Add last updated timestamp
 
