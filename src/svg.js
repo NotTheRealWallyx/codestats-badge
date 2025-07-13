@@ -34,7 +34,7 @@ const THEMES = {
 };
 
 export function generateSVG(username, totalXP, topLangs, style = {}) {
-  const { showProgressBar = true, theme = "dark" } = style;
+  const { showProgressBar = true, theme = "dark", showLangXP = false } = style;
 
   const palette = THEMES[theme] || THEMES.dark;
 
@@ -65,7 +65,10 @@ export function generateSVG(username, totalXP, topLangs, style = {}) {
       const row = Math.floor(i / 2);
       const x = 10 + col * colWidth;
       const y = langStartY + row * rowHeight;
-      return `<text x="${x}" y="${y}" font-size="14" fill="${palette.text}" class="lang-line">${lang.name}: Level ${lang.level}</text>`;
+      const value = showLangXP
+        ? `${formatNumber(lang.xp)} XP`
+        : `Level ${lang.level}`;
+      return `<text x="${x}" y="${y}" font-size="14" fill="${palette.text}" class="lang-line">${lang.name}: ${value}</text>`;
     })
     .join("");
 
@@ -79,12 +82,11 @@ export function generateSVG(username, totalXP, topLangs, style = {}) {
       <text x="50%" y="25" font-size="16" fill="${palette.title}" text-anchor="middle" class="title">Code::Stats</text>
       <text x="50%" y="45" font-size="14" fill="${palette.text}" text-anchor="middle">${username} (Level ${level} – ${formatNumber(progressToNext)} XP to next)</text>
       <text x="10" y="65" font-size="14" fill="${palette.label}">Total XP: ${formatNumber(totalXP)}</text>
-      ${
-        showProgressBar
-          ? `<rect x="10" y="75" width="380" height="10" fill="${palette.progressBg}" rx="5"/>
+      ${showProgressBar
+      ? `<rect x="10" y="75" width="380" height="10" fill="${palette.progressBg}" rx="5"/>
              <rect x="10" y="75" width="${Math.round(3.8 * progressPercentage)}" height="10" fill="${palette.progress}" rx="5"/>`
-          : ""
-      }
+      : ""
+    }
       ${langLines}
     </svg>`;
 }
