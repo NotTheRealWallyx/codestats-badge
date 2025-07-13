@@ -49,6 +49,7 @@ describe("api/code-stats.js handler", () => {
       limit: "2",
       showProgressBar: true,
       theme: "dark",
+      showLangXP: false,
     });
     expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "image/svg+xml");
     expect(res.setHeader).toHaveBeenCalledWith(
@@ -86,6 +87,7 @@ describe("api/code-stats.js handler", () => {
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: false,
       theme: "dark",
+      showLangXP: false,
     });
   });
 
@@ -97,6 +99,7 @@ describe("api/code-stats.js handler", () => {
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
       theme: "dark",
+      showLangXP: false,
     });
   });
 
@@ -108,6 +111,7 @@ describe("api/code-stats.js handler", () => {
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
       theme: "dark",
+      showLangXP: false,
     });
   });
 
@@ -119,8 +123,35 @@ describe("api/code-stats.js handler", () => {
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
       theme: "light",
+      showLangXP: false,
     });
   });
+
+  it("defaults theme to dark if not provided", async () => {
+    getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
+    const req = { query: { user: "testuser" } };
+    const res = createRes();
+    await handler(req, res);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
+      showProgressBar: true,
+      theme: "dark",
+      showLangXP: false,
+    });
+  });
+
+  it("passes showLangXP if provided", async () => {
+    getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
+    const req = { query: { user: "testuser", showLangXP: "true" } };
+    const res = createRes();
+    await handler(req, res);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
+      showProgressBar: true,
+      theme: "dark",
+      showLangXP: true,
+    });
+  });
+
+
 
   it("returns 400 if theme is invalid", async () => {
     const req = { query: { user: "testuser", theme: "blue" } };
