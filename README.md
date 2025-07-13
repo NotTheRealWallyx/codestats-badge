@@ -110,7 +110,6 @@ This project works great on:
 
 - Font choices
 - Customizable color palette via query parameters
-
 - Support for compact/minimal badge layout
 - Add last updated timestamp
 
