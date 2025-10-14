@@ -1,5 +1,5 @@
 import axios from "axios";
-import { calculateLevel, generateSVG } from "./svg.js";
+import { calculateLevel, generateSVG, generateCompactSVG } from "./svg.js";
 
 export async function getCodeStatsSVG(username, options = {}) {
   if (!username) throw new Error("Missing username");
@@ -8,6 +8,7 @@ export async function getCodeStatsSVG(username, options = {}) {
     showProgressBar = true,
     theme = "dark",
     showLangXP = false,
+    compact = false,
   } = options;
 
   const langLimit = Math.max(1, Math.min(20, parseInt(limit, 10) || 6));
@@ -23,6 +24,11 @@ export async function getCodeStatsSVG(username, options = {}) {
     }))
     .sort((a, b) => b.xp - a.xp)
     .slice(0, langLimit);
+
+  if (compact) {
+    return generateCompactSVG(username, totalXP, { theme });
+  }
+
   return generateSVG(username, totalXP, languages, {
     showProgressBar,
     theme,
