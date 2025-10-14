@@ -70,6 +70,16 @@ You can control the appearance of your badge using query parameters:
   /api/code-stats?user=yourusername&limit=10
   ```
 
+- **Compact mode:**  
+  Use `compact=true` to display a simplified badge showing only total XP.  
+  Example:
+
+  ```
+  /api/code-stats?user=yourusername&compact=true
+  ```
+
+  ![Compact Code::Stats](https://codestats-badge-ehrxwm47k-nottherealwallyxs-projects.vercel.app/api/code-stats?user=Wallyx&compact=true)
+
 ---
 
 ## 💻 Local Development
@@ -119,8 +129,6 @@ This project works great on:
 
 - Font choices
 - Customizable color palette via query parameters
-- Support for compact/minimal badge layout
-- Add last updated timestamp
 
 ---
 
