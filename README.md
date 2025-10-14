@@ -30,7 +30,7 @@
 ![Code::Stats](https://your-domain.com/api/code-stats?user=yourusername)
 ```
 
-![Code::Stats](https://codestats-badge-ehrxwm47k-nottherealwallyxs-projects.vercel.app/api/code-stats?user=Wallyx)
+![Code::Stats](https://codestats-badge.vercel.app/api/code-stats?user=Wallyx)
 
 ---
 
@@ -78,7 +78,7 @@ You can control the appearance of your badge using query parameters:
   /api/code-stats?user=yourusername&compact=true
   ```
 
-  ![Compact Code::Stats](https://codestats-badge-ehrxwm47k-nottherealwallyxs-projects.vercel.app/api/code-stats?user=Wallyx&compact=true)
+  ![Compact Code::Stats](https://codestats-badge.vercel.app/api/code-stats?user=Wallyx&compact=true)
 
 ---
 

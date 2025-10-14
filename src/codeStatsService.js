@@ -35,7 +35,3 @@ export async function getCodeStatsSVG(username, options = {}) {
     showLangXP,
   });
 }
-
-export function validateTheme(theme) {
-  return theme === "light" || theme === "dark";
-}
