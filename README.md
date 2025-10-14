@@ -57,8 +57,17 @@ You can control the appearance of your badge using query parameters:
 - **Theme (light or dark):**  
   Use `theme=light` for a light background, or `theme=dark` for a dark background (default is dark).  
   Example:
+
   ```
   /api/code-stats?user=yourusername&theme=light
+  ```
+
+- **Limit number of languages displayed:**  
+  Use `limit=` to set how many top languages to show (default is 6, max is 20).  
+  Example:
+
+  ```
+  /api/code-stats?user=yourusername&limit=10
   ```
 
 ---
