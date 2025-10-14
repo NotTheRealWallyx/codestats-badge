@@ -82,12 +82,31 @@ export function generateSVG(username, totalXP, topLangs, style = {}) {
       <text x="50%" y="25" font-size="16" fill="${palette.title}" text-anchor="middle" class="title">Code::Stats</text>
       <text x="50%" y="45" font-size="14" fill="${palette.text}" text-anchor="middle">${username} (Level ${level} – ${formatNumber(progressToNext)} XP to next)</text>
       <text x="10" y="65" font-size="14" fill="${palette.label}">Total XP: ${formatNumber(totalXP)}</text>
-      ${
-        showProgressBar
-          ? `<rect x="10" y="75" width="380" height="10" fill="${palette.progressBg}" rx="5"/>
+      ${showProgressBar
+      ? `<rect x="10" y="75" width="380" height="10" fill="${palette.progressBg}" rx="5"/>
              <rect x="10" y="75" width="${Math.round(3.8 * progressPercentage)}" height="10" fill="${palette.progress}" rx="5"/>`
-          : ""
-      }
+      : ""
+    }
       ${langLines}
     </svg>`;
+}
+
+export function generateCompactSVG(username, totalXP, style = {}) {
+  const { theme = "dark" } = style;
+  const palette = THEMES[theme] || THEMES.dark;
+
+  const badgeHeight = 20;
+  const usernameText = username || "";
+  const xpText = `Total XP: ${formatNumber(totalXP)}`;
+  const text = `${usernameText} • ${xpText}`;
+  const width = Math.max(80, text.length * 7 + 16);
+
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${badgeHeight}">
+      <rect width="100%" height="100%" fill="${palette.background}" stroke="${palette.border}" stroke-width="1" rx="3"/>
+      <text x="8" y="14" fill="${palette.text}" font-family="Verdana, Geneva, sans-serif" font-size="12">
+        ${usernameText} • ${xpText}
+      </text>
+    </svg>
+  `;
 }
