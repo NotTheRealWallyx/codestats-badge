@@ -184,7 +184,6 @@ describe("api/code-stats.js handler", () => {
     });
   });
 
-
   it("returns 400 if theme is invalid", async () => {
     const req = { query: { user: "testuser", theme: "blue" } };
     const res = createRes();

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { generateSVG, generateCompactSVG } from "../svg.js";
+import { generateCompactSVG, generateSVG } from "../svg.js";
 
 const username = "testuser";
 const totalXP = 12345;

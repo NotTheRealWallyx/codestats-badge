@@ -1,5 +1,5 @@
 import axios from "axios";
-import { calculateLevel, generateSVG, generateCompactSVG } from "./svg.js";
+import { calculateLevel, generateCompactSVG, generateSVG } from "./svg.js";
 
 export async function getCodeStatsSVG(username, options = {}) {
   if (!username) throw new Error("Missing username");
