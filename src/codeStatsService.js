@@ -10,7 +10,7 @@ export async function getCodeStatsSVG(username, options = {}) {
     showLangXP = false,
   } = options;
 
-  const langLimit = Math.max(1, Math.min(20, parseInt(limit) || 6));
+  const langLimit = Math.max(1, Math.min(20, parseInt(limit, 10) || 6));
   const { data } = await axios.get(
     `https://codestats.net/api/users/${username}`,
   );
