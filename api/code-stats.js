@@ -8,6 +8,7 @@ export default async function handler(req, res) {
     showProgressBar,
     theme,
     showLangXP,
+    compact,
   } = req.query;
   const themeValue = theme || "dark";
 
@@ -23,6 +24,7 @@ export default async function handler(req, res) {
       showProgressBar: showProgressBar !== "false",
       theme: themeValue,
       showLangXP: showLangXP === "true",
+      compact: compact === "true",
     });
     res.setHeader("Content-Type", "image/svg+xml");
     res.setHeader("Content-Disposition", 'inline; filename="badge.svg"');

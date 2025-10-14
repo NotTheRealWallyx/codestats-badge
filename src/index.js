@@ -12,6 +12,7 @@ app.get("/api/code-stats", async (req, res) => {
     showProgressBar,
     theme,
     showLangXP,
+    compact,
   } = req.query;
   const themeValue = theme || "dark";
 
@@ -27,6 +28,7 @@ app.get("/api/code-stats", async (req, res) => {
       showProgressBar: showProgressBar !== "false",
       theme: themeValue,
       showLangXP: showLangXP === "true",
+      compact: compact === "true",
     });
     res.setHeader("Content-Type", "image/svg+xml");
     res.setHeader("Cache-Control", "s-maxage=3600");

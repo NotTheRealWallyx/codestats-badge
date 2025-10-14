@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { generateSVG } from "../svg.js";
+import { generateCompactSVG, generateSVG } from "../svg.js";
 
 const username = "testuser";
 const totalXP = 12345;
@@ -39,5 +39,23 @@ describe("generateSVG", () => {
       showProgressBar: true,
     });
     expect(svg).toContain('rect x="10" y="75" width="380" height="10"');
+  });
+});
+
+describe("generateCompactSVG", () => {
+  it("renders dark theme by default", () => {
+    const svg = generateCompactSVG(username, totalXP);
+    expect(svg).toContain('fill="#0d1117"');
+    expect(svg).toContain('stroke="#fff"');
+    expect(svg).toContain('fill="#c9d1d9"');
+    expect(svg).toContain(username);
+  });
+
+  it("renders light theme", () => {
+    const svg = generateCompactSVG(username, totalXP, { theme: "light" });
+    expect(svg).toContain('fill="#fff"');
+    expect(svg).toContain('stroke="#0d1117"');
+    expect(svg).toContain('fill="#24292f"');
+    expect(svg).toContain(username);
   });
 });

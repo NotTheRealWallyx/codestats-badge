@@ -50,6 +50,7 @@ describe("api/code-stats.js handler", () => {
       showProgressBar: true,
       theme: "dark",
       showLangXP: false,
+      compact: false,
     });
     expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "image/svg+xml");
     expect(res.setHeader).toHaveBeenCalledWith(
@@ -88,6 +89,7 @@ describe("api/code-stats.js handler", () => {
       showProgressBar: false,
       theme: "dark",
       showLangXP: false,
+      compact: false,
     });
   });
 
@@ -100,6 +102,7 @@ describe("api/code-stats.js handler", () => {
       showProgressBar: true,
       theme: "dark",
       showLangXP: false,
+      compact: false,
     });
   });
 
@@ -112,6 +115,20 @@ describe("api/code-stats.js handler", () => {
       showProgressBar: true,
       theme: "dark",
       showLangXP: false,
+      compact: false,
+    });
+  });
+
+  it("defaults compact to false if not set", async () => {
+    getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
+    const req = { query: { user: "testuser" } };
+    const res = createRes();
+    await handler(req, res);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
+      showProgressBar: true,
+      theme: "dark",
+      showLangXP: false,
+      compact: false,
     });
   });
 
@@ -124,6 +141,7 @@ describe("api/code-stats.js handler", () => {
       showProgressBar: true,
       theme: "light",
       showLangXP: false,
+      compact: false,
     });
   });
 
@@ -136,6 +154,7 @@ describe("api/code-stats.js handler", () => {
       showProgressBar: true,
       theme: "dark",
       showLangXP: false,
+      compact: false,
     });
   });
 
@@ -148,6 +167,20 @@ describe("api/code-stats.js handler", () => {
       showProgressBar: true,
       theme: "dark",
       showLangXP: true,
+      compact: false,
+    });
+  });
+
+  it("passes compact if provided", async () => {
+    getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
+    const req = { query: { user: "testuser", compact: "true" } };
+    const res = createRes();
+    await handler(req, res);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
+      showProgressBar: true,
+      theme: "dark",
+      showLangXP: false,
+      compact: true,
     });
   });
 

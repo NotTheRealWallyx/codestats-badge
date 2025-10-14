@@ -91,3 +91,23 @@ export function generateSVG(username, totalXP, topLangs, style = {}) {
       ${langLines}
     </svg>`;
 }
+
+export function generateCompactSVG(username, totalXP, style = {}) {
+  const { theme = "dark" } = style;
+  const palette = THEMES[theme] || THEMES.dark;
+
+  const badgeHeight = 20;
+  const usernameText = username || "";
+  const xpText = `Total XP: ${formatNumber(totalXP)}`;
+  const text = `${usernameText} • ${xpText}`;
+  const width = Math.max(80, text.length * 7 + 16);
+
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${badgeHeight}">
+      <rect width="100%" height="100%" fill="${palette.background}" stroke="${palette.border}" stroke-width="1" rx="3"/>
+      <text x="8" y="14" fill="${palette.text}" font-family="Verdana, Geneva, sans-serif" font-size="12">
+        ${usernameText} • ${xpText}
+      </text>
+    </svg>
+  `;
+}
