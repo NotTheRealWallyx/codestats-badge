@@ -10,7 +10,7 @@
 ## 🚀 Features
 
 - Displays **total XP** from your Code::Stats profile
-- Shows your **top languages** by XP (customizable with `?limit=`)
+- Shows your **top languages** by XP
 - Returns a **custom SVG** you can embed anywhere
 - Easy to deploy on [Vercel](https://vercel.com), Render, or your own server
 
