@@ -1,22 +1,15 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 export default function Home() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-black font-sans">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-center py-24 px-8 bg-black rounded-xl shadow-xl">
-        <Image
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
         <h1 className="mt-8 text-4xl font-bold text-blue-700 dark:text-blue-300 text-center">
           Code::Stats Badge Showcase
         </h1>
         <p className="mt-4 text-lg text-zinc-700 dark:text-zinc-300 text-center max-w-xl">
           Display your Code::Stats progress with a beautiful SVG badge. Below is
-          a live example for user{" "}
+          a live example for user{' '}
           <span className="font-semibold text-blue-600 dark:text-blue-400">
             Wallyx
           </span>
@@ -126,7 +119,7 @@ export default function Home() {
                 width={64}
                 height={64}
                 className="mb-2 transition-transform group-hover:scale-110"
-                style={{ borderRadius: "12px" }}
+                style={{ borderRadius: '12px' }}
               />
             </a>
             {/* GitHub logo and link */}
@@ -142,7 +135,7 @@ export default function Home() {
                 width={64}
                 height={64}
                 className="mb-2 transition-transform group-hover:scale-110"
-                style={{ borderRadius: "12px" }}
+                style={{ borderRadius: '12px' }}
               />
             </a>
           </div>
