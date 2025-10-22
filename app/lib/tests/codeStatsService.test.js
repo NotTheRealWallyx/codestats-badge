@@ -1,8 +1,7 @@
-import axios from "axios";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getCodeStatsSVG } from "../codeStatsService.js";
 
-vi.mock("axios");
+const globalAny = global;
 
 const mockUserData = {
   total_xp: 123456,
@@ -19,6 +18,7 @@ const mockUserData = {
 describe("getCodeStatsSVG", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    globalAny.fetch = vi.fn();
   });
 
   it("should throw if username is missing", async () => {
@@ -26,7 +26,10 @@ describe("getCodeStatsSVG", () => {
   });
 
   it("should return SVG for a valid user", async () => {
-    axios.get.mockResolvedValueOnce({ data: mockUserData });
+    globalAny.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockUserData,
+    });
     const svg = await getCodeStatsSVG("testuser");
     expect(svg).toContain("<svg");
     expect(svg).toContain("testuser");
@@ -34,14 +37,17 @@ describe("getCodeStatsSVG", () => {
   });
 
   it("should limit the number of languages in the SVG", async () => {
-    axios.get.mockResolvedValueOnce({ data: mockUserData });
+    globalAny.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockUserData,
+    });
     const svg = await getCodeStatsSVG("testuser", { limit: 2 });
     const langLines = svg.match(/class="lang-line"/g) || [];
     expect(langLines.length).toBe(2);
   });
 
   it("should throw on API error", async () => {
-    axios.get.mockRejectedValueOnce(new Error("API error"));
+    globalAny.fetch.mockResolvedValueOnce({ ok: false });
     await expect(getCodeStatsSVG("testuser")).rejects.toThrow();
   });
 });

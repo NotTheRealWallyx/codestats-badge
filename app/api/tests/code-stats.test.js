@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock getCodeStatsSVG and validateTheme before importing handler
-vi.mock("../../src/codeStatsService.js", () => ({
+vi.mock("../../lib/codeStatsService.js", () => ({
   getCodeStatsSVG: vi.fn(),
   validateTheme: vi.fn((theme) => theme === "light" || theme === "dark"),
 }));
 
-import { getCodeStatsSVG } from "../../src/codeStatsService.js";
+import { getCodeStatsSVG } from "../../lib/codeStatsService.js";
 import handler from "../code-stats.js";
 
 function createRes() {

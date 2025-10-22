@@ -1,11 +1,7 @@
-import express from "express";
-import { getCodeStatsSVG } from "./codeStatsService.js";
-import { validateRequest } from "./utils.js";
+import { getCodeStatsSVG } from "../lib/codeStatsService.js";
+import { validateRequest } from "../lib/utils.js";
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-app.get("/api/code-stats", async (req, res) => {
+export default async function handler(req, res) {
   const {
     user: username,
     limit,
@@ -31,17 +27,11 @@ app.get("/api/code-stats", async (req, res) => {
       compact: compact === "true",
     });
     res.setHeader("Content-Type", "image/svg+xml");
+    res.setHeader("Content-Disposition", 'inline; filename="badge.svg"');
+    res.setHeader("X-Content-Type-Options", "nosniff");
     res.setHeader("Cache-Control", "s-maxage=3600");
     res.send(svg);
   } catch {
     res.status(500).send("Error fetching user data from Code::Stats");
   }
-});
-
-if (process.env.NODE_ENV !== "test") {
-  app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-  });
 }
-
-export default app;
