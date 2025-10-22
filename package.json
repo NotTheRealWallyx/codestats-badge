@@ -28,7 +28,6 @@
     "@vitest/coverage-v8": "^4.0.1",
     "eslint": "^9",
     "eslint-config-next": "16.0.0",
-    "supertest": "^7.1.4",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.0.1"
