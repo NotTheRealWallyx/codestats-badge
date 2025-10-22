@@ -1,50 +1,35 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock getCodeStatsSVG and validateTheme before importing handler
-vi.mock("../../src/codeStatsService.js", () => ({
+vi.mock("../../../lib/codeStatsService.js", () => ({
   getCodeStatsSVG: vi.fn(),
   validateTheme: vi.fn((theme) => theme === "light" || theme === "dark"),
 }));
 
-import { getCodeStatsSVG } from "../../src/codeStatsService.js";
-import handler from "../code-stats.js";
+import { getCodeStatsSVG } from "../../../lib/codeStatsService.js";
+import { GET } from "../route.js";
 
-function createRes() {
-  const res = {};
-  res.statusCode = 200;
-  res.headers = {};
-  res.status = vi.fn((code) => {
-    res.statusCode = code;
-    return res;
-  });
-  res.setHeader = vi.fn((key, value) => {
-    res.headers[key] = value;
-  });
-  res.send = vi.fn((body) => {
-    res.body = body;
-    return res;
-  });
-  return res;
+function createRequest(url) {
+  return { url };
 }
 
-describe("api/code-stats.js handler", () => {
+describe("GET handler", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("returns 400 if user is missing", async () => {
-    const req = { query: {} };
-    const res = createRes();
-    await handler(req, res);
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.send).toHaveBeenCalledWith("Missing ?user=username");
+    const req = createRequest("http://localhost/api/code-stats");
+    const res = await GET(req);
+    expect(res.status).toBe(400);
+    const body = await res.text();
+    expect(body).toBe("Missing ?user=username");
   });
 
   it("returns SVG if user is provided", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = { query: { user: "testuser", limit: "2" } };
-    const res = createRes();
-    await handler(req, res);
+    const req = createRequest("http://localhost/api/code-stats?user=testuser&limit=2");
+    const res = await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       limit: "2",
       showProgressBar: true,
@@ -52,41 +37,31 @@ describe("api/code-stats.js handler", () => {
       showLangXP: false,
       compact: false,
     });
-    expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "image/svg+xml");
-    expect(res.setHeader).toHaveBeenCalledWith(
-      "Content-Disposition",
-      'inline; filename="badge.svg"',
-    );
-    expect(res.setHeader).toHaveBeenCalledWith(
-      "X-Content-Type-Options",
-      "nosniff",
-    );
-    expect(res.setHeader).toHaveBeenCalledWith(
-      "Cache-Control",
-      "s-maxage=3600",
-    );
-    expect(res.send).toHaveBeenCalledWith("<svg>test</svg>");
-    expect(res.status).not.toHaveBeenCalledWith(400);
+    expect(res.status).toBe(200);
+    expect(res.headers.get("Content-Type")).toBe("image/svg+xml");
+    expect(res.headers.get("Content-Disposition")).toBe('inline; filename="badge.svg"');
+    expect(res.headers.get("X-Content-Type-Options")).toBe("nosniff");
+    expect(res.headers.get("Cache-Control")).toBe("s-maxage=3600");
+    const body = await res.text();
+    expect(body).toBe("<svg>test</svg>");
   });
 
   it("returns 500 on error", async () => {
     getCodeStatsSVG.mockRejectedValue(new Error("fail"));
-    const req = { query: { user: "testuser" } };
-    const res = createRes();
-    await handler(req, res);
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.send).toHaveBeenCalledWith(
-      "Error fetching user data from Code::Stats",
-    );
+    const req = createRequest("http://localhost/api/code-stats?user=testuser");
+    const res = await GET(req);
+    expect(res.status).toBe(500);
+    const body = await res.text();
+    expect(body).toBe("Error fetching user data from Code::Stats");
   });
 
   it("passes showProgressBar=false as boolean false", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = { query: { user: "testuser", showProgressBar: "false" } };
-    const res = createRes();
-    await handler(req, res);
+    const req = createRequest("http://localhost/api/code-stats?user=testuser&showProgressBar=false");
+    await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: false,
+      limit: null,
       theme: "dark",
       showLangXP: false,
       compact: false,
@@ -95,11 +70,11 @@ describe("api/code-stats.js handler", () => {
 
   it("passes showProgressBar=true as boolean true", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = { query: { user: "testuser", showProgressBar: "true" } };
-    const res = createRes();
-    await handler(req, res);
+    const req = createRequest("http://localhost/api/code-stats?user=testuser&showProgressBar=true");
+    await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
+      limit: null,
       theme: "dark",
       showLangXP: false,
       compact: false,
@@ -108,11 +83,11 @@ describe("api/code-stats.js handler", () => {
 
   it("defaults showProgressBar to true if not set", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = { query: { user: "testuser" } };
-    const res = createRes();
-    await handler(req, res);
+    const req = createRequest("http://localhost/api/code-stats?user=testuser");
+    await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
+      limit: null,
       theme: "dark",
       showLangXP: false,
       compact: false,
@@ -121,11 +96,11 @@ describe("api/code-stats.js handler", () => {
 
   it("defaults compact to false if not set", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = { query: { user: "testuser" } };
-    const res = createRes();
-    await handler(req, res);
+    const req = createRequest("http://localhost/api/code-stats?user=testuser");
+    await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
+      limit: null,
       theme: "dark",
       showLangXP: false,
       compact: false,
@@ -134,11 +109,11 @@ describe("api/code-stats.js handler", () => {
 
   it("passes theme if provided", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = { query: { user: "testuser", theme: "light" } };
-    const res = createRes();
-    await handler(req, res);
+    const req = createRequest("http://localhost/api/code-stats?user=testuser&theme=light");
+    await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
+      limit: null,
       theme: "light",
       showLangXP: false,
       compact: false,
@@ -147,11 +122,11 @@ describe("api/code-stats.js handler", () => {
 
   it("defaults theme to dark if not provided", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = { query: { user: "testuser" } };
-    const res = createRes();
-    await handler(req, res);
+    const req = createRequest("http://localhost/api/code-stats?user=testuser");
+    await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
+      limit: null,
       theme: "dark",
       showLangXP: false,
       compact: false,
@@ -160,11 +135,11 @@ describe("api/code-stats.js handler", () => {
 
   it("passes showLangXP if provided", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = { query: { user: "testuser", showLangXP: "true" } };
-    const res = createRes();
-    await handler(req, res);
+    const req = createRequest("http://localhost/api/code-stats?user=testuser&showLangXP=true");
+    await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
+      limit: null,
       theme: "dark",
       showLangXP: true,
       compact: false,
@@ -173,11 +148,11 @@ describe("api/code-stats.js handler", () => {
 
   it("passes compact if provided", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = { query: { user: "testuser", compact: "true" } };
-    const res = createRes();
-    await handler(req, res);
+    const req = createRequest("http://localhost/api/code-stats?user=testuser&compact=true");
+    await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
+      limit: null,
       theme: "dark",
       showLangXP: false,
       compact: true,
@@ -185,12 +160,10 @@ describe("api/code-stats.js handler", () => {
   });
 
   it("returns 400 if theme is invalid", async () => {
-    const req = { query: { user: "testuser", theme: "blue" } };
-    const res = createRes();
-    await handler(req, res);
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.send).toHaveBeenCalledWith(
-      'Invalid theme. Only "light" or "dark" are supported.',
-    );
+    const req = createRequest("http://localhost/api/code-stats?user=testuser&theme=blue");
+    const res = await GET(req);
+    expect(res.status).toBe(400);
+    const body = await res.text();
+    expect(body).toBe('Invalid theme. Only "light" or "dark" are supported.');
   });
 });

@@ -1,0 +1,14 @@
+
+    <svg width="400" height="180" xmlns="http://www.w3.org/2000/svg">
+      <style>
+        text { font-family: Arial, sans-serif; }
+        .title { font-weight: bold; }
+      </style>
+      <rect width="100%" height="100%" fill="#fff" stroke="#0d1117" stroke-width="1" rx="5"/>
+      <text x="50%" y="25" font-size="16" fill="#0969da" text-anchor="middle" class="title">Code::Stats</text>
+      <text x="50%" y="45" font-size="14" fill="#24292f" text-anchor="middle">Wallyx (Level 43 – 1,055 XP to next)</text>
+      <text x="10" y="65" font-size="14" fill="#57606a">Total XP: 3,096,545</text>
+      <rect x="10" y="75" width="380" height="10" fill="#d0d7de" rx="5"/>
+             <rect x="10" y="75" width="377" height="10" fill="#0969da" rx="5"/>
+      <text x="10" y="115" font-size="14" fill="#24292f" class="lang-line">Terminal (Zsh): Level 29</text><text x="200" y="115" font-size="14" fill="#24292f" class="lang-line">TypeScript: Level 28</text><text x="10" y="135" font-size="14" fill="#24292f" class="lang-line">Python: Level 9</text><text x="200" y="135" font-size="14" fill="#24292f" class="lang-line">Markdown: Level 6</text><text x="10" y="155" font-size="14" fill="#24292f" class="lang-line">JavaScript: Level 5</text><text x="200" y="155" font-size="14" fill="#24292f" class="lang-line">Shell Script: Level 5</text>
+    </svg>

@@ -1,4 +1,4 @@
-import axios from "axios";
+// Use native fetch instead of axios
 import { calculateLevel, generateCompactSVG, generateSVG } from "./svg.js";
 
 export async function getCodeStatsSVG(username, options = {}) {
@@ -12,9 +12,11 @@ export async function getCodeStatsSVG(username, options = {}) {
   } = options;
 
   const langLimit = Math.max(1, Math.min(20, parseInt(limit, 10) || 6));
-  const { data } = await axios.get(
-    `https://codestats.net/api/users/${username}`,
-  );
+  const response = await fetch(`https://codestats.net/api/users/${username}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch user data");
+  }
+  const data = await response.json();
   const totalXP = data.total_xp;
   const languages = Object.entries(data.languages)
     .map(([name, info]) => ({
