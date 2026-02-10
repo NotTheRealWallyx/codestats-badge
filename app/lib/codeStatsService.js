@@ -37,3 +37,20 @@ export async function getCodeStatsSVG(username, options = {}) {
     showLangXP,
   });
 }
+
+export async function getDailyExperience(username) {
+  if (!username) throw new Error("Missing username");
+
+  const response = await fetch(`https://codestats.net/api/users/${username}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch user data");
+  }
+
+  const data = await response.json();
+  const dailyExperience = Object.entries(data.dates).map(([date, xp]) => ({
+    date,
+    xp,
+  }));
+
+  return dailyExperience.sort((a, b) => new Date(a.date) - new Date(b.date));
+}

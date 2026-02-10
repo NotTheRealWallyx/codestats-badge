@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { getCodeStatsSVG } from "../codeStatsService.js";
+import { getCodeStatsSVG, getDailyExperience } from "../codeStatsService.js";
 
 const globalAny = global;
 
@@ -49,5 +49,39 @@ describe("getCodeStatsSVG", () => {
   it("should throw on API error", async () => {
     globalAny.fetch.mockResolvedValueOnce({ ok: false });
     await expect(getCodeStatsSVG("testuser")).rejects.toThrow();
+  });
+});
+
+describe("getDailyExperience", () => {
+  it("should throw an error if username is missing", async () => {
+    await expect(getDailyExperience()).rejects.toThrow("Missing username");
+  });
+
+  it("should return sorted daily experience", async () => {
+    global.fetch = vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            dates: {
+              "2026-02-01": 100,
+              "2026-02-03": 50,
+              "2026-02-02": 200,
+            },
+          }),
+      })
+    );
+
+    const result = await getDailyExperience("testuser");
+    expect(result).toEqual([
+      { date: "2026-02-01", xp: 100 },
+      { date: "2026-02-02", xp: 200 },
+      { date: "2026-02-03", xp: 50 },
+    ]);
+  });
+
+  it("should throw an error if fetch fails", async () => {
+    global.fetch = vi.fn(() => Promise.resolve({ ok: false }));
+    await expect(getDailyExperience("testuser")).rejects.toThrow("Failed to fetch user data");
   });
 });

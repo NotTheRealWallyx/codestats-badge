@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("../../../lib/codeStatsService.js", () => ({
+vi.mock("../../../../lib/codeStatsService.js", () => ({
   getCodeStatsSVG: vi.fn(),
   validateTheme: vi.fn((theme) => theme === "light" || theme === "dark"),
 }));
@@ -18,7 +18,7 @@ describe("GET handler", () => {
   });
 
   it("returns 400 if user is missing", async () => {
-    const req = createRequest("http://localhost/api/code-stats");
+    const req = createRequest("http://localhost/api/code-stats/badge");
     const res = await GET(req);
     expect(res.status).toBe(400);
     const body = await res.text();
@@ -27,7 +27,7 @@ describe("GET handler", () => {
 
   it("returns SVG if user is provided", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = createRequest("http://localhost/api/code-stats?user=testuser&limit=2");
+    const req = createRequest("http://localhost/api/code-stats/badge?user=testuser&limit=2");
     const res = await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       limit: "2",
@@ -47,7 +47,7 @@ describe("GET handler", () => {
 
   it("returns 500 on error", async () => {
     getCodeStatsSVG.mockRejectedValue(new Error("fail"));
-    const req = createRequest("http://localhost/api/code-stats?user=testuser");
+    const req = createRequest("http://localhost/api/code-stats/badge?user=testuser");
     const res = await GET(req);
     expect(res.status).toBe(500);
     const body = await res.text();
@@ -56,7 +56,7 @@ describe("GET handler", () => {
 
   it("passes showProgressBar=false as boolean false", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = createRequest("http://localhost/api/code-stats?user=testuser&showProgressBar=false");
+    const req = createRequest("http://localhost/api/code-stats/badge?user=testuser&showProgressBar=false");
     await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: false,
@@ -69,7 +69,7 @@ describe("GET handler", () => {
 
   it("passes showProgressBar=true as boolean true", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = createRequest("http://localhost/api/code-stats?user=testuser&showProgressBar=true");
+    const req = createRequest("http://localhost/api/code-stats/badge?user=testuser&showProgressBar=true");
     await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
@@ -82,7 +82,7 @@ describe("GET handler", () => {
 
   it("defaults showProgressBar to true if not set", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = createRequest("http://localhost/api/code-stats?user=testuser");
+    const req = createRequest("http://localhost/api/code-stats/badge?user=testuser");
     await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
@@ -95,7 +95,7 @@ describe("GET handler", () => {
 
   it("defaults compact to false if not set", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = createRequest("http://localhost/api/code-stats?user=testuser");
+    const req = createRequest("http://localhost/api/code-stats/badge?user=testuser");
     await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
@@ -108,7 +108,7 @@ describe("GET handler", () => {
 
   it("passes theme if provided", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = createRequest("http://localhost/api/code-stats?user=testuser&theme=light");
+    const req = createRequest("http://localhost/api/code-stats/badge?user=testuser&theme=light");
     await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
@@ -121,7 +121,7 @@ describe("GET handler", () => {
 
   it("defaults theme to dark if not provided", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = createRequest("http://localhost/api/code-stats?user=testuser");
+    const req = createRequest("http://localhost/api/code-stats/badge?user=testuser");
     await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
@@ -134,7 +134,7 @@ describe("GET handler", () => {
 
   it("passes showLangXP if provided", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = createRequest("http://localhost/api/code-stats?user=testuser&showLangXP=true");
+    const req = createRequest("http://localhost/api/code-stats/badge?user=testuser&showLangXP=true");
     await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
@@ -147,7 +147,7 @@ describe("GET handler", () => {
 
   it("passes compact if provided", async () => {
     getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
-    const req = createRequest("http://localhost/api/code-stats?user=testuser&compact=true");
+    const req = createRequest("http://localhost/api/code-stats/badge?user=testuser&compact=true");
     await GET(req);
     expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
       showProgressBar: true,
@@ -159,7 +159,7 @@ describe("GET handler", () => {
   });
 
   it("returns 400 if theme is invalid", async () => {
-    const req = createRequest("http://localhost/api/code-stats?user=testuser&theme=blue");
+    const req = createRequest("http://localhost/api/code-stats/badge?user=testuser&theme=blue");
     const res = await GET(req);
     expect(res.status).toBe(400);
     const body = await res.text();

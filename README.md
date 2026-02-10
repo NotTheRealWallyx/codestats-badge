@@ -9,34 +9,24 @@
 
 ## 🚀 Features
 
+### XP Badge:
+
 - Displays **total XP** from your Code::Stats profile
 - Shows your **top languages** by XP
 - Returns a **custom SVG** you can embed anywhere
-- Easy to deploy on [Vercel](https://vercel.com), Render, or your own server
 
----
+### Activity Badge:
 
-## 🔧 Usage
-
-### Endpoint:
-
-```
-/api/code-stats?user=<your_codestats_username>&limit=6
-```
-
-### Example:
-
-```markdown
-![Code::Stats](https://your-domain.com/api/code-stats?user=yourusername)
-```
-
-![Code::Stats](https://codestats-badge.vercel.app/api/code-stats?user=Wallyx)
+- Displays **activity squares** for daily XP contributions
+- Returns a **custom SVG** you can embed anywhere
 
 ---
 
 ## 🎨 Customization
 
-You can control the appearance of your badge using query parameters:
+You can control the appearance of your badges using query parameters:
+
+### XP Badge:
 
 - **Show/hide progress bar:**  
   Use `showProgressBar=false` to hide the progress bar.  
@@ -79,6 +69,26 @@ You can control the appearance of your badge using query parameters:
   ```
 
   ![Compact Code::Stats](https://codestats-badge.vercel.app/api/code-stats?user=Wallyx&compact=true)
+
+### Activity Badge:
+
+- **Theme (light or dark):**  
+  Use `theme=light` for a light background, or `theme=dark` for a dark background (default is dark).  
+  Example:
+
+  ```
+  /api/code-stats/activity?user=yourusername&theme=light
+  ```
+
+- **Date range:**  
+  By default, the badge shows activity for the past year. You can customize the range using `startDate` and `endDate` query parameters.  
+  Example:
+
+  ```
+  /api/code-stats/activity?user=yourusername&startDate=2025-01-01&endDate=2025-12-31
+  ```
+
+  ![Activity Code::Stats](https://codestats-badge.vercel.app/api/code-stats/activity?user=Wallyx&theme=light)
 
 ---
 
