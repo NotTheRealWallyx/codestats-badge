@@ -38,11 +38,19 @@ export async function getCodeStatsSVG(username, options = {}) {
   });
 }
 
-export async function getDailyExperience(user) {
-  // Mocked data for now
-  return [
-    { date: "2026-02-01", xp: 100 },
-    { date: "2026-02-02", xp: 200 },
-    { date: "2026-02-03", xp: 50 },
-  ];
+export async function getDailyExperience(username) {
+  if (!username) throw new Error("Missing username");
+
+  const response = await fetch(`https://codestats.net/api/users/${username}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch user data");
+  }
+
+  const data = await response.json();
+  const dailyExperience = Object.entries(data.dates).map(([date, xp]) => ({
+    date,
+    xp,
+  }));
+
+  return dailyExperience.sort((a, b) => new Date(a.date) - new Date(b.date));
 }

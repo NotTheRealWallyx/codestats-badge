@@ -21,6 +21,8 @@ const THEMES = {
     label: "#8b949e",
     progressBg: "#30363d",
     progress: "#58a6ff",
+    square: "#4caf50",
+    emptySquare: "#444444",
   },
   light: {
     background: "#fff",
@@ -30,6 +32,8 @@ const THEMES = {
     label: "#57606a",
     progressBg: "#d0d7de",
     progress: "#0969da",
+    square: "#8bc34a",
+    emptySquare: "#eeeeee",
   },
 };
 
@@ -112,21 +116,51 @@ export function generateCompactSVG(username, totalXP, style = {}) {
 }
 
 export function generateActivitySVG(dailyExperience, theme = "light") {
-  const isDark = theme === "dark";
-  const backgroundColor = isDark ? "#333333" : "#ffffff";
-  const squareColor = isDark ? "#4caf50" : "#8bc34a";
+  const palette = THEMES[theme] || THEMES.dark;
+
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+  const filteredExperience = dailyExperience.filter(day => new Date(day.date) >= oneYearAgo);
+
+  const experienceMap = new Map(filteredExperience.map(day => [day.date, day.xp]));
+
+  const today = new Date();
+  const days = [];
+  for (let d = new Date(oneYearAgo); d <= today; d.setDate(d.getDate() + 1)) {
+    days.push(new Date(d));
+  }
+
+  // Find the highest and lowest XP values, excluding outliers, and set bounds for opacity scaling
+  const xpValues = Array.from(experienceMap.values());
+  const sortedXP = xpValues.sort((a, b) => a - b);
+  const lowerBound = sortedXP[Math.floor(sortedXP.length * 0.01)] || 0;
+  const upperBound = sortedXP[Math.ceil(sortedXP.length * 0.85)] || 1;
 
   // Generate SVG squares based on daily experience
-  const squares = dailyExperience.map((day, index) => {
-    const x = (index % 7) * 15; // 7 columns
-    const y = Math.floor(index / 7) * 15; // Rows
-    const opacity = Math.min(day.xp / 200, 1); // Scale XP to opacity
+  const squares = days.map((date, index) => {
+    const dayOfWeek = date.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+    const week = Math.floor((index + dayOfWeek) / 7);
+    const x = week * 15 + 10;
+    const y = (dayOfWeek === 0 ? 6 : dayOfWeek - 1) * 15 + 30; // Adjust for Monday start, with padding
 
-    return `<rect x="${x}" y="${y}" width="13" height="13" fill="${squareColor}" fill-opacity="${opacity}" />`;
+    const xp = experienceMap.get(date.toISOString().split("T")[0]) || 0;
+    const opacity = xp > 0 ? (xp - lowerBound) / (upperBound - lowerBound) : 0;
+
+    return `<rect x="${x}" y="${y}" width="13" height="13" fill="${xp > 0 ? palette.square : palette.emptySquare}" fill-opacity="${Math.max(0, Math.min(opacity, 1))}" />`;
   });
 
+  const svgWidth = Math.ceil(days.length / 7) * 15 + 20;
+  const svgHeight = 105 + 40;
+
   return `
-    <svg xmlns="http://www.w3.org/2000/svg" width="120" height="${Math.ceil(dailyExperience.length / 7) * 15}" style="background-color: ${backgroundColor};">
+    <svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}" height="${svgHeight}">
+      <style>
+        text { font-family: Arial, sans-serif; }
+        .title { font-weight: bold; }
+      </style>
+      <rect width="100%" height="100%" fill="${palette.background}" stroke="${palette.border}" stroke-width="1" rx="5"/>
+      <text x="50%" y="20" font-size="16" fill="${palette.title}" text-anchor="middle" class="title">Activity</text>
       ${squares.join("\n")}
     </svg>
   `;
