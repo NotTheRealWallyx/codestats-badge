@@ -22,7 +22,7 @@ const THEMES = {
     progressBg: "#30363d",
     progress: "#58a6ff",
     square: "#4caf50",
-    emptySquare: "#444444",
+    emptySquare: "#44444444",
   },
   light: {
     background: "#fff",
@@ -33,7 +33,7 @@ const THEMES = {
     progressBg: "#d0d7de",
     progress: "#0969da",
     square: "#8bc34a",
-    emptySquare: "#eeeeee",
+    emptySquare: "#eeeeeeec",
   },
 };
 
@@ -147,7 +147,11 @@ export function generateActivitySVG(dailyExperience, theme = "light") {
     const xp = experienceMap.get(date.toISOString().split("T")[0]) || 0;
     const opacity = xp > 0 ? (xp - lowerBound) / (upperBound - lowerBound) : 0;
 
-    return `<rect x="${x}" y="${y}" width="13" height="13" fill="${xp > 0 ? palette.square : palette.emptySquare}" fill-opacity="${Math.max(0, Math.min(opacity, 1))}" />`;
+    if (xp == 0) {
+      return `<rect x="${x}" y="${y}" width="13" height="13" fill="${palette.emptySquare}" />`;
+    }
+
+    return `<rect x="${x}" y="${y}" width="13" height="13" fill="${palette.square}" fill-opacity="${Math.max(0, Math.min(opacity, 1))}" />`;
   });
 
   const svgWidth = Math.ceil(days.length / 7) * 15 + 20;
