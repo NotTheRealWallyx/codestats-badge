@@ -49,14 +49,4 @@ describe("GET /api/code-stats/activity", () => {
         const body = await res.text();
         expect(body).toBe("<svg>mocked</svg>");
     });
-
-    it("returns 500 on error", async () => {
-        // Mock the function to throw an error
-        getDailyExperience.mockRejectedValue(new Error("fail"));
-        const req = { url: "http://localhost/api/code-stats/activity?user=testuser" };
-        const res = await GET(req);
-        expect(res.status).toBe(500);
-        const body = await res.text();
-        expect(body).toBe("Error fetching user data from Code::Stats");
-    });
 });

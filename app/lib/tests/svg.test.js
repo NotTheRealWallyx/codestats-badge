@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { generateCompactSVG, generateSVG } from "../svg.js";
+import { generateCompactSVG, generateSVG, generateActivitySVG } from "../svg.js";
 
 const username = "testuser";
 const totalXP = 12345;
@@ -57,5 +57,25 @@ describe("generateCompactSVG", () => {
     expect(svg).toContain('stroke="#0d1117"');
     expect(svg).toContain('fill="#24292f"');
     expect(svg).toContain(username);
+  });
+});
+
+describe("generateActivitySVG", () => {
+  it("should generate SVG with activity squares", () => {
+    const dailyExperience = [
+      { date: "2026-02-01", xp: 100 },
+      { date: "2026-02-02", xp: 200 },
+      { date: "2026-02-03", xp: 50 },
+    ];
+
+    const svg = generateActivitySVG(dailyExperience, "light");
+    expect(svg).toContain("fill-opacity");
+    expect(svg).toContain("fill=");
+  });
+
+  it("should handle empty daily experience", () => {
+    const svg = generateActivitySVG([], "dark");
+    expect(svg).toContain("<svg");
+    expect(svg).not.toContain("fill-opacity");
   });
 });
