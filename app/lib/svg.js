@@ -82,12 +82,11 @@ export function generateSVG(username, totalXP, topLangs, style = {}) {
       <text x="50%" y="25" font-size="16" fill="${palette.title}" text-anchor="middle" class="title">Code::Stats</text>
       <text x="50%" y="45" font-size="14" fill="${palette.text}" text-anchor="middle">${username} (Level ${level} – ${formatNumber(progressToNext)} XP to next)</text>
       <text x="10" y="65" font-size="14" fill="${palette.label}">Total XP: ${formatNumber(totalXP)}</text>
-      ${
-        showProgressBar
-          ? `<rect x="10" y="75" width="380" height="10" fill="${palette.progressBg}" rx="5"/>
+      ${showProgressBar
+      ? `<rect x="10" y="75" width="380" height="10" fill="${palette.progressBg}" rx="5"/>
              <rect x="10" y="75" width="${Math.round(3.8 * progressPercentage)}" height="10" fill="${palette.progress}" rx="5"/>`
-          : ""
-      }
+      : ""
+    }
       ${langLines}
     </svg>`;
 }
@@ -108,6 +107,27 @@ export function generateCompactSVG(username, totalXP, style = {}) {
       <text x="8" y="14" fill="${palette.text}" font-family="Verdana, Geneva, sans-serif" font-size="12">
         ${usernameText} • ${xpText}
       </text>
+    </svg>
+  `;
+}
+
+export function generateActivitySVG(dailyExperience, theme = "light") {
+  const isDark = theme === "dark";
+  const backgroundColor = isDark ? "#333333" : "#ffffff";
+  const squareColor = isDark ? "#4caf50" : "#8bc34a";
+
+  // Generate SVG squares based on daily experience
+  const squares = dailyExperience.map((day, index) => {
+    const x = (index % 7) * 15; // 7 columns
+    const y = Math.floor(index / 7) * 15; // Rows
+    const opacity = Math.min(day.xp / 200, 1); // Scale XP to opacity
+
+    return `<rect x="${x}" y="${y}" width="13" height="13" fill="${squareColor}" fill-opacity="${opacity}" />`;
+  });
+
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" width="120" height="${Math.ceil(dailyExperience.length / 7) * 15}" style="background-color: ${backgroundColor};">
+      ${squares.join("\n")}
     </svg>
   `;
 }

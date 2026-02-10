@@ -37,3 +37,12 @@ export async function getCodeStatsSVG(username, options = {}) {
     showLangXP,
   });
 }
+
+export async function getDailyExperience(user) {
+  // Mocked data for now
+  return [
+    { date: "2026-02-01", xp: 100 },
+    { date: "2026-02-02", xp: 200 },
+    { date: "2026-02-03", xp: 50 },
+  ];
+}

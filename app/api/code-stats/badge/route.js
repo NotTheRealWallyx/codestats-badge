@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getCodeStatsSVG } from "../../../lib/codeStatsService.js";
-import { validateRequest } from "../../../lib/utils.js";
+import { getCodeStatsSVG } from "@/app/lib/codeStatsService.js";
+import { validateRequest } from "@/app/lib/utils.js";
 
 export async function GET(request) {
     const { searchParams } = new URL(request.url);
