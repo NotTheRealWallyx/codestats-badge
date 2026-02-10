@@ -1,23 +1,24 @@
+import { NextResponse } from "next/server";
 import { getDailyExperience } from "@/app/lib/codeStatsService";
 import { generateActivitySVG } from "@/app/lib/svg";
+import { validateRequest } from "@/app/lib/utils.js";
 
-export async function GET(req) {
-    const url = new URL(req.url);
-    const user = url.searchParams.get("user");
-    const theme = url.searchParams.get("theme") || "light";
+export async function GET(request) {
+    const { searchParams } = new URL(request.url);
+    const username = searchParams.get("user");
+    const theme = searchParams.get("theme") || "dark";
 
-    if (!user) {
-        return new Response("Missing ?user=username", { status: 400 });
+    const validation = validateRequest({ username, theme });
+    if (!validation.valid) {
+        return new NextResponse(validation.message, { status: validation.status });
     }
 
-    try {
-        // Fetch daily experience data
-        const dailyExperience = await getDailyExperience(user);
 
-        // Generate the activity SVG
+    try {
+        const dailyExperience = await getDailyExperience(username);
         const svg = generateActivitySVG(dailyExperience, theme);
 
-        return new Response(svg, {
+        return new NextResponse(svg, {
             status: 200,
             headers: {
                 "Content-Type": "image/svg+xml",
@@ -26,8 +27,9 @@ export async function GET(req) {
                 "Cache-Control": "s-maxage=3600",
             },
         });
-    } catch (error) {
-        console.error(error);
-        return new Response("Error fetching user data from Code::Stats", { status: 500 });
+    } catch {
+        return new NextResponse("Error fetching user data from Code::Stats", {
+            status: 500,
+        });
     }
 }
