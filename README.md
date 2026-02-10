@@ -5,8 +5,6 @@
 
 📊 A dynamic SVG badge generator for [Code::Stats](https://codestats.net) profiles, perfect for embedding your XP and top languages in your GitHub README.
 
----
-
 ## 🚀 Features
 
 ### XP Badge:
@@ -19,8 +17,6 @@
 
 - Displays **activity squares** for daily XP contributions
 - Returns a **custom SVG** you can embed anywhere
-
----
 
 ## 🎨 Customization
 
@@ -82,8 +78,6 @@ You can control the appearance of your badges using query parameters:
 
   ![Activity Code::Stats](https://codestats-badge.vercel.app/api/code-stats/activity?user=Wallyx&theme=light)
 
----
-
 ## 💻 Local Development
 
 This project supports both local Express server and Vercel serverless function usage.
@@ -114,8 +108,6 @@ If you want to test the Vercel serverless function locally:
 vercel dev
 ```
 
----
-
 ## 🚀 Deployment
 
 This project works great on:
@@ -125,23 +117,6 @@ This project works great on:
 - [Heroku](https://heroku.com) (runs Express server)
 - Any Node.js-capable host
 
----
-
-## 🧠 Next additions
-
-- Font choices
-- Customizable color palette via query parameters
-
----
-
 ## 📄 License
 
-This project is licensed under the GNU GPL v3.
-
----
-
-## 🙌 Credits
-
-Inspired by [anuraghazra/github-readme-stats](https://github.com/anuraghazra/github-readme-stats)
-
-Made with ❤️ to level up your README.
+This project is licensed under the GNU GPL v3. See [LICENSE](LICENSE) for details.
