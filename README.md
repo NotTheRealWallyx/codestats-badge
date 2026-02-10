@@ -80,14 +80,6 @@ You can control the appearance of your badges using query parameters:
   /api/code-stats/activity?user=yourusername&theme=light
   ```
 
-- **Date range:**  
-  By default, the badge shows activity for the past year. You can customize the range using `startDate` and `endDate` query parameters.  
-  Example:
-
-  ```
-  /api/code-stats/activity?user=yourusername&startDate=2025-01-01&endDate=2025-12-31
-  ```
-
   ![Activity Code::Stats](https://codestats-badge.vercel.app/api/code-stats/activity?user=Wallyx&theme=light)
 
 ---
