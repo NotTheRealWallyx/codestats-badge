@@ -105,6 +105,25 @@ export default function Home() {
               </span>
             </div>
           </div>
+          {/* Activity Badge Section */}
+          <div className="w-full mt-8 flex flex-col items-center">
+            <h2 className="text-2xl font-semibold text-green-700 dark:text-green-300 mb-2">
+              Activity Badge Example
+            </h2>
+            <p className="mt-2 text-md text-zinc-700 dark:text-zinc-300 text-center max-w-xl">
+              Shows daily XP contributions as activity squares. <br />
+            </p>
+            <div className="flex flex-col items-center">
+              <Image
+                src="/badges/activity.svg"
+                alt="Activity badge"
+                width={600}
+                height={180}
+                className="rounded-lg border border-zinc-200 dark:border-zinc-700 shadow-md"
+                unoptimized
+              />
+            </div>
+          </div>
           <div className="mt-8 w-full max-w-2xl flex flex-row justify-center gap-12 items-center">
             {/* Code::Stats logo and link */}
             <a
