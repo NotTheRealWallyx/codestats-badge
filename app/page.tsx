@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import BadgePreview from './components/BadgePreview';
+import SubTitle from './components/SubTitle';
 
 export default function Home() {
   return (
@@ -13,116 +15,72 @@ export default function Home() {
           <span className="font-semibold text-blue-600 dark:text-blue-400">
             Wallyx
           </span>
-          .
         </p>
         <div className="mt-10 flex flex-col items-center gap-8 w-full">
-          <h2 className="text-2xl font-semibold text-blue-700 dark:text-blue-300 mb-2">
-            Badge Personalization Options
-          </h2>
+          <SubTitle text="Badge Personalization Options" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
-            {/* Default badge */}
-            <div className="flex flex-col items-center">
-              <Image
-                src="/badges/default-badge.svg"
-                alt="Default badge"
-                width={600}
-                height={180}
-                className="rounded-lg border border-zinc-200 dark:border-zinc-700 shadow-md"
-                unoptimized
-              />
-              <span className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                Default: <code>?user=Wallyx</code>
-              </span>
-            </div>
-            {/* Light theme */}
-            <div className="flex flex-col items-center">
-              <Image
-                src="/badges/light-badge.svg"
-                alt="Light theme badge"
-                width={600}
-                height={180}
-                className="rounded-lg border border-zinc-200 dark:border-zinc-700 shadow-md"
-                unoptimized
-              />
-              <span className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                Theme: <code>&theme=light</code>
-              </span>
-            </div>
-            {/* Hide progress bar */}
-            <div className="flex flex-col items-center">
-              <Image
-                src="/badges/no-progress-bar-badge.svg"
-                alt="No progress bar badge"
-                width={600}
-                height={180}
-                className="rounded-lg border border-zinc-200 dark:border-zinc-700 shadow-md"
-                unoptimized
-              />
-              <span className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                Hide Progress Bar: <code>&showProgressBar=false</code>
-              </span>
-            </div>
-            {/* ShowLangXP */}
-            <div className="flex flex-col items-center">
-              <Image
-                src="/badges/xp-badge.svg"
-                alt="ShowLangXP badge"
-                width={600}
-                height={180}
-                className="rounded-lg border border-zinc-200 dark:border-zinc-700 shadow-md"
-                unoptimized
-              />
-              <span className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                Show Language XP: <code>&showLangXP=true</code>
-              </span>
-            </div>
-            {/* Limit languages */}
-            <div className="flex flex-col items-center">
-              <Image
-                src="/badges/limit-badge.svg"
-                alt="Limit languages badge"
-                width={600}
-                height={180}
-                className="rounded-lg border border-zinc-200 dark:border-zinc-700 shadow-md"
-                unoptimized
-              />
-              <span className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                Limit Languages: <code>&limit=3</code>
-              </span>
-            </div>
-            {/* Compact mode */}
-            <div className="flex flex-col items-center">
-              <Image
-                src="/badges/compact-badge.svg"
-                alt="Compact badge"
-                width={600}
-                height={180}
-                className="rounded-lg border border-zinc-200 dark:border-zinc-700 shadow-md"
-                unoptimized
-              />
-              <span className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                Compact Mode: <code>&compact=true</code>
-              </span>
-            </div>
+            <BadgePreview
+              src="/badges/default-badge.svg"
+              alt="Default badge"
+              options={{
+                text: 'User',
+                code: '?user=Wallyx',
+              }}
+            />
+
+            <BadgePreview
+              src="/badges/light-badge.svg"
+              alt="Light theme badge"
+              options={{
+                text: 'Theme',
+                code: '?theme=light',
+              }}
+            />
+
+            <BadgePreview
+              src="/badges/no-progress-bar-badge.svg"
+              alt="No progress bar badge"
+              options={{
+                text: 'Hide Progress Bar',
+                code: '?showProgressBar=false',
+              }}
+            />
+
+            <BadgePreview
+              src="/badges/xp-badge.svg"
+              alt="Language XP badge"
+              options={{
+                text: 'Show Language XP',
+                code: '?showLangXP=true',
+              }}
+            />
+
+            <BadgePreview
+              src="/badges/limit-badge.svg"
+              alt="Limit languages badge"
+              options={{
+                text: 'Limit Languages',
+                code: '?limit=3',
+              }}
+            />
+
+            <BadgePreview
+              src="/badges/compact-badge.svg"
+              alt="Compact badge"
+              options={{
+                text: 'Compact Mode',
+                code: '?compact=true',
+              }}
+            />
           </div>
-          {/* Activity Badge Section */}
+
           <div className="w-full mt-8 flex flex-col items-center">
-            <h2 className="text-2xl font-semibold text-green-700 dark:text-green-300 mb-2">
-              Activity Badge Example
-            </h2>
-            <p className="mt-2 text-md text-zinc-700 dark:text-zinc-300 text-center max-w-xl">
-              Shows daily XP contributions as activity squares. <br />
-            </p>
-            <div className="flex flex-col items-center">
-              <Image
-                src="/badges/activity.svg"
-                alt="Activity badge"
-                width={600}
-                height={180}
-                className="rounded-lg border border-zinc-200 dark:border-zinc-700 shadow-md"
-                unoptimized
-              />
-            </div>
+            <SubTitle text="Activity Example" />
+            <BadgePreview
+              src="/badges/activity.svg"
+              alt="Activity badge"
+              description="Shows daily XP contributions as activity squares."
+            />
           </div>
           <div className="mt-8 w-full max-w-2xl flex flex-row justify-center gap-12 items-center">
             {/* Code::Stats logo and link */}
