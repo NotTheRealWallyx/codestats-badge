@@ -116,11 +116,12 @@ export function generateCompactSVG(username, totalXP, style = {}) {
   `;
 }
 
-export function generateActivitySVG(dailyExperience, theme = 'light') {
+export function generateActivitySVG(
+  dailyExperience,
+  theme = 'light',
+  today = new Date(),
+) {
   const palette = THEMES[theme] || THEMES.dark;
-
-  // Calculate one year ago from today
-  const today = new Date();
   const oneYearAgo = new Date(today);
   oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 
@@ -131,9 +132,6 @@ export function generateActivitySVG(dailyExperience, theme = 'light') {
   const daysToMonday = startDay === 0 ? 6 : startDay - 1;
   startDate.setDate(startDate.getDate() - daysToMonday);
 
-  // Align end date to today
-  const endDate = new Date(today);
-
   // Filter experience to only include days >= startDate
   const filteredExperience = dailyExperience.filter(
     (day) => new Date(day.date) >= startDate,
@@ -142,9 +140,8 @@ export function generateActivitySVG(dailyExperience, theme = 'light') {
     filteredExperience.map((day) => [day.date, day.xp]),
   );
 
-  // Build days array from startDate to endDate
   const days = [];
-  for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+  for (let d = new Date(startDate); d <= today; d.setDate(d.getDate() + 1)) {
     days.push(new Date(d));
   }
 
@@ -156,12 +153,12 @@ export function generateActivitySVG(dailyExperience, theme = 'light') {
 
   // Generate SVG squares based on daily experience
   const squares = days.map((date, index) => {
-    const dayOfWeek = date.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+    const dayOfWeek = date.getDay();
     // Monday = 0, Sunday = 6 for row
     const row = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
     const week = Math.floor(index / 7);
     const x = week * 15 + 10;
-    const y = row * 15 + 30; // Adjust for Monday start, with padding
+    const y = row * 15 + 30;
 
     const xp = experienceMap.get(date.toISOString().split('T')[0]) || 0;
     const opacity = xp > 0 ? (xp - lowerBound) / (upperBound - lowerBound) : 0;
