@@ -14,31 +14,31 @@ export function formatNumber(num) {
 
 const THEMES = {
   dark: {
-    background: "#0d1117",
-    border: "#fff",
-    title: "#58a6ff",
-    text: "#c9d1d9",
-    label: "#8b949e",
-    progressBg: "#30363d",
-    progress: "#58a6ff",
-    square: "#4caf50",
-    emptySquare: "#44444444",
+    background: '#0d1117',
+    border: '#fff',
+    title: '#58a6ff',
+    text: '#c9d1d9',
+    label: '#8b949e',
+    progressBg: '#30363d',
+    progress: '#58a6ff',
+    square: '#4caf50',
+    emptySquare: '#44444444',
   },
   light: {
-    background: "#fff",
-    border: "#0d1117",
-    title: "#0969da",
-    text: "#24292f",
-    label: "#57606a",
-    progressBg: "#d0d7de",
-    progress: "#0969da",
-    square: "#8bc34a",
-    emptySquare: "#eeeeeeec",
+    background: '#fff',
+    border: '#0d1117',
+    title: '#0969da',
+    text: '#24292f',
+    label: '#57606a',
+    progressBg: '#d0d7de',
+    progress: '#0969da',
+    square: '#8bc34a',
+    emptySquare: '#eeeeeeec',
   },
 };
 
 export function generateSVG(username, totalXP, topLangs, style = {}) {
-  const { showProgressBar = true, theme = "dark", showLangXP = false } = style;
+  const { showProgressBar = true, theme = 'dark', showLangXP = false } = style;
 
   const palette = THEMES[theme] || THEMES.dark;
 
@@ -74,7 +74,7 @@ export function generateSVG(username, totalXP, topLangs, style = {}) {
         : `Level ${lang.level}`;
       return `<text x="${x}" y="${y}" font-size="14" fill="${palette.text}" class="lang-line">${lang.name}: ${value}</text>`;
     })
-    .join("");
+    .join('');
 
   return `
     <svg width="400" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
@@ -86,21 +86,22 @@ export function generateSVG(username, totalXP, topLangs, style = {}) {
       <text x="50%" y="25" font-size="16" fill="${palette.title}" text-anchor="middle" class="title">Code::Stats</text>
       <text x="50%" y="45" font-size="14" fill="${palette.text}" text-anchor="middle">${username} (Level ${level} – ${formatNumber(progressToNext)} XP to next)</text>
       <text x="10" y="65" font-size="14" fill="${palette.label}">Total XP: ${formatNumber(totalXP)}</text>
-      ${showProgressBar
-      ? `<rect x="10" y="75" width="380" height="10" fill="${palette.progressBg}" rx="5"/>
+      ${
+        showProgressBar
+          ? `<rect x="10" y="75" width="380" height="10" fill="${palette.progressBg}" rx="5"/>
              <rect x="10" y="75" width="${Math.round(3.8 * progressPercentage)}" height="10" fill="${palette.progress}" rx="5"/>`
-      : ""
-    }
+          : ''
+      }
       ${langLines}
     </svg>`;
 }
 
 export function generateCompactSVG(username, totalXP, style = {}) {
-  const { theme = "dark" } = style;
+  const { theme = 'dark' } = style;
   const palette = THEMES[theme] || THEMES.dark;
 
   const badgeHeight = 20;
-  const usernameText = username || "";
+  const usernameText = username || '';
   const xpText = `Total XP: ${formatNumber(totalXP)}`;
   const text = `${usernameText} • ${xpText}`;
   const width = Math.max(80, text.length * 7 + 16);
@@ -115,36 +116,51 @@ export function generateCompactSVG(username, totalXP, style = {}) {
   `;
 }
 
-export function generateActivitySVG(dailyExperience, theme = "light") {
+export function generateActivitySVG(
+  dailyExperience,
+  theme = 'light',
+  today = new Date(),
+) {
   const palette = THEMES[theme] || THEMES.dark;
-
-  const oneYearAgo = new Date();
+  const oneYearAgo = new Date(today);
   oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 
-  const filteredExperience = dailyExperience.filter(day => new Date(day.date) >= oneYearAgo);
+  // Align start date to previous Monday
+  const startDate = new Date(oneYearAgo);
+  const startDay = startDate.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+  // If not Monday, go back to previous Monday
+  const daysToMonday = startDay === 0 ? 6 : startDay - 1;
+  startDate.setDate(startDate.getDate() - daysToMonday);
 
-  const experienceMap = new Map(filteredExperience.map(day => [day.date, day.xp]));
+  // Filter experience to only include days >= startDate
+  const filteredExperience = dailyExperience.filter(
+    (day) => new Date(day.date) >= startDate,
+  );
+  const experienceMap = new Map(
+    filteredExperience.map((day) => [day.date, day.xp]),
+  );
 
-  const today = new Date();
   const days = [];
-  for (let d = new Date(oneYearAgo); d <= today; d.setDate(d.getDate() + 1)) {
+  for (let d = new Date(startDate); d <= today; d.setDate(d.getDate() + 1)) {
     days.push(new Date(d));
   }
 
   // Find the highest and lowest XP values, excluding outliers, and set bounds for opacity scaling
   const xpValues = Array.from(experienceMap.values());
-  const sortedXP = xpValues.sort((a, b) => a - b);
+  const sortedXP = xpValues.slice().sort((a, b) => a - b);
   const lowerBound = sortedXP[Math.floor(sortedXP.length * 0.01)] || 0;
   const upperBound = sortedXP[Math.ceil(sortedXP.length * 0.85)] || 1;
 
   // Generate SVG squares based on daily experience
   const squares = days.map((date, index) => {
-    const dayOfWeek = date.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
-    const week = Math.floor((index + dayOfWeek) / 7);
+    const dayOfWeek = date.getDay();
+    // Monday = 0, Sunday = 6 for row
+    const row = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    const week = Math.floor(index / 7);
     const x = week * 15 + 10;
-    const y = (dayOfWeek === 0 ? 6 : dayOfWeek - 1) * 15 + 30; // Adjust for Monday start, with padding
+    const y = row * 15 + 30;
 
-    const xp = experienceMap.get(date.toISOString().split("T")[0]) || 0;
+    const xp = experienceMap.get(date.toISOString().split('T')[0]) || 0;
     const opacity = xp > 0 ? (xp - lowerBound) / (upperBound - lowerBound) : 0;
 
     if (xp == 0) {
@@ -165,7 +181,7 @@ export function generateActivitySVG(dailyExperience, theme = "light") {
       </style>
       <rect width="100%" height="100%" fill="${palette.background}" stroke="${palette.border}" stroke-width="1" rx="5"/>
       <text x="50%" y="20" font-size="16" fill="${palette.title}" text-anchor="middle" class="title">Activity</text>
-      ${squares.join("\n")}
+      ${squares.join('\n')}
     </svg>
   `;
 }
