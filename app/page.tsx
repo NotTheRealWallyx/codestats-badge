@@ -72,7 +72,9 @@ export default function Home() {
     '![Activity](https://codestats-badge.vercel.app/api/code-stats/activity?user=YOUR_USERNAME)';
 
   return (
-    <div style={{ minHeight: '100vh', background: '#09090b', color: '#fafafa' }}>
+    <div
+      style={{ minHeight: '100vh', background: '#09090b', color: '#fafafa' }}
+    >
       {/* ── Navbar ── */}
       <nav
         style={{
@@ -95,26 +97,28 @@ export default function Home() {
             justifyContent: 'space-between',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+          <div
+            style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}
+          >
             <Image
               src="/logos/badge-logo.svg"
               alt="Code::Stats Badge"
               width={30}
               height={30}
             />
-            <span style={{ fontWeight: 700, fontSize: '0.9375rem', color: '#fafafa' }}>
+            <span
+              style={{
+                fontWeight: 700,
+                fontSize: '0.9375rem',
+                color: '#fafafa',
+              }}
+            >
               Code::Stats Badge
             </span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-            <a
-              href="https://codestats.net"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="nav-link"
-            >
-              Code::Stats
-            </a>
+          <div
+            style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}
+          >
             <a
               href="https://github.com/NotTheRealWallyx/codestats-badge"
               target="_blank"
@@ -122,7 +126,12 @@ export default function Home() {
               className="btn-ghost"
               style={{ padding: '0.4375rem 1rem', fontSize: '0.875rem' }}
             >
-              <Image src="/logos/github-mark-white.svg" alt="" width={16} height={16} />
+              <Image
+                src="/logos/github-mark-white.svg"
+                alt=""
+                width={16}
+                height={16}
+              />
               GitHub
             </a>
           </div>
@@ -130,7 +139,13 @@ export default function Home() {
       </nav>
 
       {/* ── Hero ── */}
-      <section style={{ position: 'relative', overflow: 'hidden', paddingBottom: '5rem' }}>
+      <section
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          paddingBottom: '5rem',
+        }}
+      >
         <div className="grid-bg" style={{ position: 'absolute', inset: 0 }} />
         <div className="hero-glow" style={{ position: 'absolute', inset: 0 }} />
         <div
@@ -158,7 +173,8 @@ export default function Home() {
               marginBottom: '2rem',
             }}
           >
-            <span style={{ fontSize: '0.5rem' }}>●</span> Open Source · SVG Badge Generator
+            <span style={{ fontSize: '0.5rem' }}>●</span> Open Source · SVG
+            Badge Generator
           </span>
 
           {/* Headline */}
@@ -217,7 +233,12 @@ export default function Home() {
               rel="noopener noreferrer"
               className="btn-ghost"
             >
-              <Image src="/logos/github-mark-white.svg" alt="" width={17} height={17} />
+              <Image
+                src="/logos/github-mark-white.svg"
+                alt=""
+                width={17}
+                height={17}
+              />
               View on GitHub
             </a>
           </div>
@@ -262,8 +283,14 @@ export default function Home() {
           }}
         >
           {features.map((f) => (
-            <div key={f.title} className="glass-card" style={{ padding: '1.75rem' }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.875rem' }}>{f.icon}</div>
+            <div
+              key={f.title}
+              className="glass-card"
+              style={{ padding: '1.75rem' }}
+            >
+              <div style={{ fontSize: '2rem', marginBottom: '0.875rem' }}>
+                {f.icon}
+              </div>
               <h3
                 style={{
                   fontWeight: 700,
@@ -274,7 +301,13 @@ export default function Home() {
               >
                 {f.title}
               </h3>
-              <p style={{ fontSize: '0.875rem', color: '#71717a', lineHeight: 1.6 }}>
+              <p
+                style={{
+                  fontSize: '0.875rem',
+                  color: '#71717a',
+                  lineHeight: 1.6,
+                }}
+              >
                 {f.desc}
               </p>
             </div>
@@ -422,10 +455,15 @@ export default function Home() {
               marginBottom: '0.625rem',
             }}
           >
-            Add to your README in{' '}
-            <span className="gradient-text">seconds</span>
+            Add to your README in <span className="gradient-text">seconds</span>
           </h2>
-          <p style={{ color: '#71717a', marginBottom: '2.5rem', lineHeight: 1.7 }}>
+          <p
+            style={{
+              color: '#71717a',
+              marginBottom: '2.5rem',
+              lineHeight: 1.7,
+            }}
+          >
             Replace{' '}
             <code
               style={{
@@ -440,7 +478,12 @@ export default function Home() {
           </p>
 
           <div
-            style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', textAlign: 'left' }}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.25rem',
+              textAlign: 'left',
+            }}
           >
             {[
               { title: 'XP Badge', snippet: xpSnippet },
@@ -459,7 +502,13 @@ export default function Home() {
                 >
                   {title}
                 </p>
-                <div style={{ display: 'flex', alignItems: 'stretch', gap: '0.5rem' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'stretch',
+                    gap: '0.5rem',
+                  }}
+                >
                   <div className="code-block">{snippet}</div>
                   <CopyButton text={snippet} />
                 </div>
@@ -496,14 +545,6 @@ export default function Home() {
           </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <a
-            href="https://codestats.net"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="footer-link"
-          >
-            Code::Stats
-          </a>
           <a
             href="https://github.com/NotTheRealWallyx/codestats-badge"
             target="_blank"
