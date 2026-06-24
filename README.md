@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/logos/badge-logo.svg" width="120" height="120" alt="Code::Stats Badge logo" />
+</p>
+
 # codestats-badge
 
 [![CodeFactor](https://www.codefactor.io/repository/github/nottherealwallyx/codestats-badge/badge)](https://www.codefactor.io/repository/github/nottherealwallyx/codestats-badge)

@@ -1,42 +1,40 @@
 import Image from 'next/image';
 import './styles.css';
 
-interface Options {
-  text: string;
-  code: string;
-}
-
 interface BadgePreviewProps {
   src: string;
   alt: string;
-  description?: string;
-  options?: Options;
+  label?: string;
+  param?: string;
+  desc?: string;
 }
 
 export default function BadgePreview({
   src,
   alt,
-  description,
-  options,
+  label,
+  param,
+  desc,
 }: BadgePreviewProps) {
   return (
-    <div className="badge-preview">
-      <Image
-        src={src}
-        alt={alt}
-        width={600}
-        height={180}
-        className="badge-preview-image"
-        unoptimized
-      />
-      {options && (
-        <span className="badge-preview-options">
-          {options.text}: <code>{options.code}</code>
-        </span>
+    <div className="badge-card glass-card">
+      {(label || param) && (
+        <div className="badge-card-header">
+          {label && <span className="badge-card-label">{label}</span>}
+          {param && <code className="badge-card-param">{param}</code>}
+        </div>
       )}
-      {description && (
-        <p className="badge-preview-description">{description}</p>
-      )}
+      <div className="badge-card-image">
+        <Image
+          src={src}
+          alt={alt}
+          width={480}
+          height={140}
+          unoptimized
+          style={{ display: 'block', maxWidth: '100%', height: 'auto' }}
+        />
+      </div>
+      {desc && <p className="badge-card-desc">{desc}</p>}
     </div>
   );
 }
