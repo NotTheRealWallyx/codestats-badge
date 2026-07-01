@@ -1,6 +1,6 @@
 {
   "name": "codestats-web",
-  "description": "A dynamic SVG badge generator for Code::Stats profiles, supporting themes and customization.",
+  "description": "Dynamic SVG badges for your Code::Stats profile — show off your XP, top languages, and coding activity in your GitHub README",
   "version": "0.1.0",
   "license": "GPL-3.0",
   "private": true,
