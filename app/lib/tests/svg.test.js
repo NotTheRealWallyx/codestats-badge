@@ -44,6 +44,21 @@ describe('generateSVG', () => {
     });
     expect(svg).toContain('rect x="10" y="75" width="380" height="10"');
   });
+
+  it('renders with a border by default', () => {
+    const svg = generateSVG(username, totalXP, topLangs);
+    expect(svg).toContain('stroke="#fff"');
+    expect(svg).toContain('stroke-width="1"');
+  });
+
+  it('renders without a border when borderless is true', () => {
+    const svg = generateSVG(username, totalXP, topLangs, {
+      borderless: true,
+    });
+    expect(svg).toContain('stroke="none"');
+    expect(svg).toContain('stroke-width="0"');
+    expect(svg).not.toContain('stroke="#fff"');
+  });
 });
 
 describe('generateCompactSVG', () => {
@@ -61,6 +76,13 @@ describe('generateCompactSVG', () => {
     expect(svg).toContain('stroke="#0d1117"');
     expect(svg).toContain('fill="#24292f"');
     expect(svg).toContain(username);
+  });
+
+  it('renders without a border when borderless is true', () => {
+    const svg = generateCompactSVG(username, totalXP, { borderless: true });
+    expect(svg).toContain('stroke="none"');
+    expect(svg).toContain('stroke-width="0"');
+    expect(svg).not.toContain('stroke="#fff"');
   });
 });
 
@@ -81,6 +103,19 @@ describe('generateActivitySVG', () => {
     const svg = generateActivitySVG([], 'dark');
     expect(svg).toContain('<svg');
     expect(svg).not.toContain('fill-opacity');
+  });
+
+  it('renders with a border by default', () => {
+    const svg = generateActivitySVG([], 'dark');
+    expect(svg).toContain('stroke="#fff"');
+    expect(svg).toContain('stroke-width="1"');
+  });
+
+  it('renders without a border when borderless is true', () => {
+    const svg = generateActivitySVG([], 'dark', new Date(), true);
+    expect(svg).toContain('stroke="none"');
+    expect(svg).toContain('stroke-width="0"');
+    expect(svg).not.toContain('stroke="#fff"');
   });
 
   describe('generateActivitySVG week alignment', () => {

@@ -35,6 +35,7 @@ describe("GET handler", () => {
       theme: "dark",
       showLangXP: false,
       compact: false,
+      borderless: false,
     });
     expect(res.status).toBe(200);
     expect(res.headers.get("Content-Type")).toBe("image/svg+xml");
@@ -64,6 +65,7 @@ describe("GET handler", () => {
       theme: "dark",
       showLangXP: false,
       compact: false,
+      borderless: false,
     });
   });
 
@@ -77,6 +79,7 @@ describe("GET handler", () => {
       theme: "dark",
       showLangXP: false,
       compact: false,
+      borderless: false,
     });
   });
 
@@ -90,6 +93,7 @@ describe("GET handler", () => {
       theme: "dark",
       showLangXP: false,
       compact: false,
+      borderless: false,
     });
   });
 
@@ -103,6 +107,7 @@ describe("GET handler", () => {
       theme: "dark",
       showLangXP: false,
       compact: false,
+      borderless: false,
     });
   });
 
@@ -116,6 +121,7 @@ describe("GET handler", () => {
       theme: "light",
       showLangXP: false,
       compact: false,
+      borderless: false,
     });
   });
 
@@ -129,6 +135,7 @@ describe("GET handler", () => {
       theme: "dark",
       showLangXP: false,
       compact: false,
+      borderless: false,
     });
   });
 
@@ -142,6 +149,7 @@ describe("GET handler", () => {
       theme: "dark",
       showLangXP: true,
       compact: false,
+      borderless: false,
     });
   });
 
@@ -155,6 +163,35 @@ describe("GET handler", () => {
       theme: "dark",
       showLangXP: false,
       compact: true,
+      borderless: false,
+    });
+  });
+
+  it("passes borderless if provided", async () => {
+    getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
+    const req = createRequest("http://localhost/api/code-stats?user=testuser&borderless=true");
+    await GET(req);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
+      showProgressBar: true,
+      limit: null,
+      theme: "dark",
+      showLangXP: false,
+      compact: false,
+      borderless: true,
+    });
+  });
+
+  it("defaults borderless to false if not set", async () => {
+    getCodeStatsSVG.mockResolvedValue("<svg>test</svg>");
+    const req = createRequest("http://localhost/api/code-stats?user=testuser");
+    await GET(req);
+    expect(getCodeStatsSVG).toHaveBeenCalledWith("testuser", {
+      showProgressBar: true,
+      limit: null,
+      theme: "dark",
+      showLangXP: false,
+      compact: false,
+      borderless: false,
     });
   });
 

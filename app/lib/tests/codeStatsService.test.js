@@ -50,6 +50,29 @@ describe("getCodeStatsSVG", () => {
     globalAny.fetch.mockResolvedValueOnce({ ok: false });
     await expect(getCodeStatsSVG("testuser")).rejects.toThrow();
   });
+
+  it("should omit the border when borderless is true", async () => {
+    globalAny.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockUserData,
+    });
+    const svg = await getCodeStatsSVG("testuser", { borderless: true });
+    expect(svg).toContain('stroke="none"');
+    expect(svg).not.toContain('stroke="#fff"');
+  });
+
+  it("should omit the border on compact badges when borderless is true", async () => {
+    globalAny.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockUserData,
+    });
+    const svg = await getCodeStatsSVG("testuser", {
+      compact: true,
+      borderless: true,
+    });
+    expect(svg).toContain('stroke="none"');
+    expect(svg).not.toContain('stroke="#fff"');
+  });
 });
 
 describe("getDailyExperience", () => {
