@@ -9,6 +9,11 @@
 
 📊 A dynamic SVG badge generator for [Code::Stats](https://codestats.net) profiles, perfect for embedding your XP and top languages in your GitHub README.
 
+<p align="center">
+  <img src="public/badges/default-badge.svg" alt="Code::Stats XP badge example" width="360" /><br />
+  <img src="public/badges/activity.svg" alt="Code::Stats activity badge example" width="360" />
+</p>
+
 👉 Want to see what the badges look like before adding one? Check out **[codestats-badge.vercel.app](https://codestats-badge.vercel.app/)** for live examples and an interactive way to build your own.
 
 ## 🚀 Features
