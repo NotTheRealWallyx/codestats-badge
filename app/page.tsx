@@ -45,6 +45,13 @@ const xpBadges = [
     param: '?compact=true',
     desc: 'Minimal single-line badge showing only total XP.',
   },
+  {
+    src: '/badges/borderless-badge.svg',
+    alt: 'Borderless badge',
+    label: 'Borderless Mode',
+    param: '?borderless=true',
+    desc: 'Remove the badge outline for a cleaner, borderless look.',
+  },
 ];
 
 const features = [
