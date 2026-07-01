@@ -7,6 +7,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const username = searchParams.get("user");
     const theme = searchParams.get("theme") || "dark";
+    const borderless = searchParams.get("borderless") === "true";
 
     const validation = validateRequest({ username, theme });
     if (!validation.valid) {
@@ -16,7 +17,7 @@ export async function GET(request) {
 
     try {
         const dailyExperience = await getDailyExperience(username);
-        const svg = generateActivitySVG(dailyExperience, theme);
+        const svg = generateActivitySVG(dailyExperience, theme, new Date(), borderless);
 
         return new NextResponse(svg, {
             status: 200,
