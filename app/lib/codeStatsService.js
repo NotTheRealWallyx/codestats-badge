@@ -9,6 +9,7 @@ export async function getCodeStatsSVG(username, options = {}) {
     theme = "dark",
     showLangXP = false,
     compact = false,
+    borderless = false,
   } = options;
 
   const langLimit = Math.max(1, Math.min(20, parseInt(limit, 10) || 6));
@@ -28,13 +29,14 @@ export async function getCodeStatsSVG(username, options = {}) {
     .slice(0, langLimit);
 
   if (compact) {
-    return generateCompactSVG(username, totalXP, { theme });
+    return generateCompactSVG(username, totalXP, { theme, borderless });
   }
 
   return generateSVG(username, totalXP, languages, {
     showProgressBar,
     theme,
     showLangXP,
+    borderless,
   });
 }
 

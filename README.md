@@ -70,6 +70,16 @@ You can control the appearance of your badges using query parameters:
 
   ![Compact Code::Stats](https://codestats-badge.vercel.app/api/code-stats?user=Wallyx&compact=true)
 
+- **Borderless mode:**  
+  Use `borderless=true` to remove the badge's outer border for a cleaner look.  
+  Example:
+
+  ```
+  /api/code-stats?user=yourusername&borderless=true
+  ```
+
+  ![Borderless Code::Stats](https://codestats-badge.vercel.app/api/code-stats?user=Wallyx&borderless=true)
+
 ### Activity Badge:
 
 - **Theme (light or dark):**  
@@ -81,6 +91,16 @@ You can control the appearance of your badges using query parameters:
   ```
 
   ![Activity Code::Stats](https://codestats-badge.vercel.app/api/code-stats/activity?user=Wallyx&theme=light)
+
+- **Borderless mode:**  
+  Use `borderless=true` to remove the badge's outer border for a cleaner look.  
+  Example:
+
+  ```
+  /api/code-stats/activity?user=yourusername&borderless=true
+  ```
+
+  ![Borderless Activity Code::Stats](https://codestats-badge.vercel.app/api/code-stats/activity?user=Wallyx&borderless=true)
 
 ## 💻 Local Development
 

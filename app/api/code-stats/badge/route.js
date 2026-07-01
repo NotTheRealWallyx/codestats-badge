@@ -10,6 +10,7 @@ export async function GET(request) {
     const theme = searchParams.get("theme") || "dark";
     const showLangXP = searchParams.get("showLangXP");
     const compact = searchParams.get("compact");
+    const borderless = searchParams.get("borderless");
 
     const validation = validateRequest({ username, theme });
     if (!validation.valid) {
@@ -23,6 +24,7 @@ export async function GET(request) {
             theme,
             showLangXP: showLangXP === "true",
             compact: compact === "true",
+            borderless: borderless === "true",
         });
         return new NextResponse(svg, {
             status: 200,

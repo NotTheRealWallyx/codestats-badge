@@ -44,7 +44,9 @@ describe("GET /api/code-stats/activity", () => {
                 { date: "2026-02-02", xp: 200 },
                 { date: "2026-02-03", xp: 50 },
             ],
-            "dark"
+            "dark",
+            expect.any(Date),
+            false
         );
 
         expect(res.status).toBe(200);
@@ -64,13 +66,55 @@ describe("GET /api/code-stats/activity", () => {
                 { date: "2026-02-02", xp: 200 },
                 { date: "2026-02-03", xp: 50 },
             ],
-            "light"
+            "light",
+            expect.any(Date),
+            false
         );
 
         expect(res.status).toBe(200);
         expect(res.headers.get("Content-Type")).toBe("image/svg+xml");
         const body = await res.text();
         expect(body).toBe("<svg>mocked</svg>");
+    });
+
+    it("returns SVG with borderless=true if borderless is set to true", async () => {
+        const req = { url: "http://localhost/api/code-stats/activity?user=testuser&borderless=true" };
+        const res = await GET(req);
+
+        expect(getDailyExperience).toHaveBeenCalledWith("testuser");
+        expect(generateActivitySVG).toHaveBeenCalledWith(
+            [
+                { date: "2026-02-01", xp: 100 },
+                { date: "2026-02-02", xp: 200 },
+                { date: "2026-02-03", xp: 50 },
+            ],
+            "dark",
+            expect.any(Date),
+            true
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.headers.get("Content-Type")).toBe("image/svg+xml");
+        const body = await res.text();
+        expect(body).toBe("<svg>mocked</svg>");
+    });
+
+    it("defaults borderless to false if not set", async () => {
+        const req = { url: "http://localhost/api/code-stats/activity?user=testuser" };
+        const res = await GET(req);
+
+        expect(generateActivitySVG).toHaveBeenCalledWith(
+            [
+                { date: "2026-02-01", xp: 100 },
+                { date: "2026-02-02", xp: 200 },
+                { date: "2026-02-03", xp: 50 },
+            ],
+            "dark",
+            expect.any(Date),
+            false
+        );
+
+        expect(res.status).toBe(200);
     });
 
     it("returns 500 on error", async () => {

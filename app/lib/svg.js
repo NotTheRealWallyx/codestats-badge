@@ -38,7 +38,12 @@ const THEMES = {
 };
 
 export function generateSVG(username, totalXP, topLangs, style = {}) {
-  const { showProgressBar = true, theme = 'dark', showLangXP = false } = style;
+  const {
+    showProgressBar = true,
+    theme = 'dark',
+    showLangXP = false,
+    borderless = false,
+  } = style;
 
   const palette = THEMES[theme] || THEMES.dark;
 
@@ -82,7 +87,7 @@ export function generateSVG(username, totalXP, topLangs, style = {}) {
         text { font-family: Arial, sans-serif; }
         .title { font-weight: bold; }
       </style>
-      <rect width="100%" height="100%" fill="${palette.background}" stroke="${palette.border}" stroke-width="1" rx="5"/>
+      <rect width="100%" height="100%" fill="${palette.background}" stroke="${borderless ? 'none' : palette.border}" stroke-width="${borderless ? 0 : 1}" rx="5"/>
       <text x="50%" y="25" font-size="16" fill="${palette.title}" text-anchor="middle" class="title">Code::Stats</text>
       <text x="50%" y="45" font-size="14" fill="${palette.text}" text-anchor="middle">${username} (Level ${level} – ${formatNumber(progressToNext)} XP to next)</text>
       <text x="10" y="65" font-size="14" fill="${palette.label}">Total XP: ${formatNumber(totalXP)}</text>
@@ -97,7 +102,7 @@ export function generateSVG(username, totalXP, topLangs, style = {}) {
 }
 
 export function generateCompactSVG(username, totalXP, style = {}) {
-  const { theme = 'dark' } = style;
+  const { theme = 'dark', borderless = false } = style;
   const palette = THEMES[theme] || THEMES.dark;
 
   const badgeHeight = 20;
@@ -108,7 +113,7 @@ export function generateCompactSVG(username, totalXP, style = {}) {
 
   return `
     <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${badgeHeight}">
-      <rect width="100%" height="100%" fill="${palette.background}" stroke="${palette.border}" stroke-width="1" rx="3"/>
+      <rect width="100%" height="100%" fill="${palette.background}" stroke="${borderless ? 'none' : palette.border}" stroke-width="${borderless ? 0 : 1}" rx="3"/>
       <text x="8" y="14" fill="${palette.text}" font-family="Verdana, Geneva, sans-serif" font-size="12">
         ${usernameText} • ${xpText}
       </text>
@@ -120,6 +125,7 @@ export function generateActivitySVG(
   dailyExperience,
   theme = 'light',
   today = new Date(),
+  borderless = false,
 ) {
   const palette = THEMES[theme] || THEMES.dark;
   const oneYearAgo = new Date(today);
@@ -179,7 +185,7 @@ export function generateActivitySVG(
         text { font-family: Arial, sans-serif; }
         .title { font-weight: bold; }
       </style>
-      <rect width="100%" height="100%" fill="${palette.background}" stroke="${palette.border}" stroke-width="1" rx="5"/>
+      <rect width="100%" height="100%" fill="${palette.background}" stroke="${borderless ? 'none' : palette.border}" stroke-width="${borderless ? 0 : 1}" rx="5"/>
       <text x="50%" y="20" font-size="16" fill="${palette.title}" text-anchor="middle" class="title">Activity</text>
       ${squares.join('\n')}
     </svg>
