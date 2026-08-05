@@ -12,6 +12,36 @@ export function formatNumber(num) {
   return num.toLocaleString();
 }
 
+// Formats a Date as a "YYYY-MM-DD" key using its *local* calendar date,
+// matching the plain calendar-date strings the Code::Stats API returns.
+// Deliberately avoids toISOString(), which normalizes to UTC and can shift
+// the date by a day depending on the server's timezone/time of day.
+export function formatDateKey(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+const ACTIVITY_LEVEL_OPACITIES = [0.3, 0.55, 0.8, 1];
+
+export function activityLevel(xp, quartiles) {
+  const [q1, q2, q3] = quartiles;
+  if (xp <= q1) return 0;
+  if (xp <= q2) return 1;
+  if (xp <= q3) return 2;
+  return 3;
+}
+
+export function activityQuartiles(nonZeroXPValues) {
+  const sorted = nonZeroXPValues.slice().sort((a, b) => a - b);
+  const quantile = (q) =>
+    sorted.length
+      ? sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * q))]
+      : 0;
+  return [quantile(0.25), quantile(0.5), quantile(0.75)];
+}
+
 const THEMES = {
   dark: {
     background: '#0d1117',
@@ -138,9 +168,13 @@ export function generateActivitySVG(
   const daysToMonday = startDay === 0 ? 6 : startDay - 1;
   startDate.setDate(startDate.getDate() - daysToMonday);
 
-  // Filter experience to only include days >= startDate
+  // Filter experience to only include days >= startDate. Compared as
+  // "YYYY-MM-DD" strings (not parsed as Dates) so this stays a plain local
+  // calendar-date comparison — lexicographic order matches chronological
+  // order for zero-padded ISO date strings.
+  const startDateKey = formatDateKey(startDate);
   const filteredExperience = dailyExperience.filter(
-    (day) => new Date(day.date) >= startDate,
+    (day) => day.date >= startDateKey,
   );
   const experienceMap = new Map(
     filteredExperience.map((day) => [day.date, day.xp]),
@@ -151,11 +185,11 @@ export function generateActivitySVG(
     days.push(new Date(d));
   }
 
-  // Find the highest and lowest XP values, excluding outliers, and set bounds for opacity scaling
-  const xpValues = Array.from(experienceMap.values());
-  const sortedXP = xpValues.slice().sort((a, b) => a - b);
-  const lowerBound = sortedXP[Math.floor(sortedXP.length * 0.01)] || 0;
-  const upperBound = sortedXP[Math.ceil(sortedXP.length * 0.85)] || 1;
+  // Bucket non-zero activity days into quartiles for discrete opacity levels
+  const nonZeroXPValues = Array.from(experienceMap.values()).filter(
+    (xp) => xp > 0,
+  );
+  const quartiles = activityQuartiles(nonZeroXPValues);
 
   // Generate SVG squares based on daily experience
   const squares = days.map((date, index) => {
@@ -166,14 +200,15 @@ export function generateActivitySVG(
     const x = week * 15 + 10;
     const y = row * 15 + 30;
 
-    const xp = experienceMap.get(date.toISOString().split('T')[0]) || 0;
-    const opacity = xp > 0 ? (xp - lowerBound) / (upperBound - lowerBound) : 0;
+    const xp = experienceMap.get(formatDateKey(date)) || 0;
 
-    if (xp == 0) {
-      return `<rect x="${x}" y="${y}" width="13" height="13" fill="${palette.emptySquare}" />`;
+    if (xp === 0) {
+      return `<rect x="${x}" y="${y}" width="13" height="13" rx="2" fill="${palette.emptySquare}" />`;
     }
 
-    return `<rect x="${x}" y="${y}" width="13" height="13" fill="${palette.square}" fill-opacity="${Math.max(0, Math.min(opacity, 1))}" />`;
+    const opacity = ACTIVITY_LEVEL_OPACITIES[activityLevel(xp, quartiles)];
+
+    return `<rect x="${x}" y="${y}" width="13" height="13" rx="2" fill="${palette.square}" fill-opacity="${opacity}" />`;
   });
 
   const svgWidth = Math.ceil(days.length / 7) * 15 + 20;
