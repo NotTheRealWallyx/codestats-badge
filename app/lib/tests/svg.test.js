@@ -5,6 +5,7 @@ import {
   generateActivitySVG,
   activityQuartiles,
   activityLevel,
+  formatDateKey,
 } from '../svg.js';
 
 const username = 'testuser';
@@ -107,6 +108,29 @@ describe('generateActivitySVG', () => {
     expect(svg).not.toContain('fill-opacity');
   });
 
+  it('matches days by local calendar date, not by UTC-shifted date', () => {
+    // In a timezone far ahead of UTC, a local midnight-ish "today" lands on
+    // the *previous* UTC calendar day. Matching squares via
+    // date.toISOString() (UTC) instead of local getters would look up the
+    // wrong key and silently render this real activity day as empty.
+    const originalTZ = process.env.TZ;
+    try {
+      process.env.TZ = 'Pacific/Kiritimati'; // UTC+14
+      const today = new Date('2026-02-24T00:30:00');
+      const dailyExperience = [{ date: '2026-02-24', xp: 250 }];
+
+      const svg = generateActivitySVG(dailyExperience, 'dark', today);
+
+      expect(svg).toContain('fill-opacity');
+    } finally {
+      if (originalTZ === undefined) {
+        delete process.env.TZ;
+      } else {
+        process.env.TZ = originalTZ;
+      }
+    }
+  });
+
   it('never renders a real activity day below the opacity floor', () => {
     // A wide spread of XP values, including a day with only 1 XP, which
     // under the old continuous scale would render at ~0 opacity —
@@ -197,5 +221,29 @@ describe('activityQuartiles / activityLevel', () => {
   it('puts every value in level 0 when activity is flat', () => {
     const quartiles = activityQuartiles([50, 50, 50]);
     expect(activityLevel(50, quartiles)).toBe(0);
+  });
+});
+
+describe('formatDateKey', () => {
+  it('formats using local calendar date, not UTC', () => {
+    const originalTZ = process.env.TZ;
+    try {
+      process.env.TZ = 'Pacific/Kiritimati'; // UTC+14
+      const date = new Date('2026-02-24T00:30:00');
+
+      // toISOString() would report '2026-02-23' here (UTC), but the local
+      // calendar date is '2026-02-24'.
+      expect(formatDateKey(date)).toBe('2026-02-24');
+    } finally {
+      if (originalTZ === undefined) {
+        delete process.env.TZ;
+      } else {
+        process.env.TZ = originalTZ;
+      }
+    }
+  });
+
+  it('zero-pads single-digit months and days', () => {
+    expect(formatDateKey(new Date(2026, 0, 5))).toBe('2026-01-05');
   });
 });
