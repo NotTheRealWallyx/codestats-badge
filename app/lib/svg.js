@@ -188,12 +188,12 @@ export function generateActivitySVG(
     const xp = experienceMap.get(date.toISOString().split('T')[0]) || 0;
 
     if (xp === 0) {
-      return `<rect x="${x}" y="${y}" width="13" height="13" fill="${palette.emptySquare}" />`;
+      return `<rect x="${x}" y="${y}" width="13" height="13" rx="2" fill="${palette.emptySquare}" />`;
     }
 
     const opacity = ACTIVITY_LEVEL_OPACITIES[activityLevel(xp, quartiles)];
 
-    return `<rect x="${x}" y="${y}" width="13" height="13" fill="${palette.square}" fill-opacity="${opacity}" />`;
+    return `<rect x="${x}" y="${y}" width="13" height="13" rx="2" fill="${palette.square}" fill-opacity="${opacity}" />`;
   });
 
   const svgWidth = Math.ceil(days.length / 7) * 15 + 20;
