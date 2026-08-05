@@ -12,6 +12,17 @@ export function formatNumber(num) {
   return num.toLocaleString();
 }
 
+// Formats a Date as a "YYYY-MM-DD" key using its *local* calendar date,
+// matching the plain calendar-date strings the Code::Stats API returns.
+// Deliberately avoids toISOString(), which normalizes to UTC and can shift
+// the date by a day depending on the server's timezone/time of day.
+export function formatDateKey(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 const ACTIVITY_LEVEL_OPACITIES = [0.3, 0.55, 0.8, 1];
 
 export function activityLevel(xp, quartiles) {
@@ -157,9 +168,13 @@ export function generateActivitySVG(
   const daysToMonday = startDay === 0 ? 6 : startDay - 1;
   startDate.setDate(startDate.getDate() - daysToMonday);
 
-  // Filter experience to only include days >= startDate
+  // Filter experience to only include days >= startDate. Compared as
+  // "YYYY-MM-DD" strings (not parsed as Dates) so this stays a plain local
+  // calendar-date comparison — lexicographic order matches chronological
+  // order for zero-padded ISO date strings.
+  const startDateKey = formatDateKey(startDate);
   const filteredExperience = dailyExperience.filter(
-    (day) => new Date(day.date) >= startDate,
+    (day) => day.date >= startDateKey,
   );
   const experienceMap = new Map(
     filteredExperience.map((day) => [day.date, day.xp]),
@@ -185,7 +200,7 @@ export function generateActivitySVG(
     const x = week * 15 + 10;
     const y = row * 15 + 30;
 
-    const xp = experienceMap.get(date.toISOString().split('T')[0]) || 0;
+    const xp = experienceMap.get(formatDateKey(date)) || 0;
 
     if (xp === 0) {
       return `<rect x="${x}" y="${y}" width="13" height="13" rx="2" fill="${palette.emptySquare}" />`;
