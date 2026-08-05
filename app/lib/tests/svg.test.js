@@ -3,6 +3,8 @@ import {
   generateCompactSVG,
   generateSVG,
   generateActivitySVG,
+  activityQuartiles,
+  activityLevel,
 } from '../svg.js';
 
 const username = 'testuser';
@@ -105,6 +107,28 @@ describe('generateActivitySVG', () => {
     expect(svg).not.toContain('fill-opacity');
   });
 
+  it('never renders a real activity day below the opacity floor', () => {
+    // A wide spread of XP values, including a day with only 1 XP, which
+    // under the old continuous scale would render at ~0 opacity —
+    // indistinguishable from an empty day.
+    const dailyExperience = [
+      { date: '2026-02-01', xp: 1 },
+      { date: '2026-02-02', xp: 20 },
+      { date: '2026-02-03', xp: 500 },
+      { date: '2026-02-04', xp: 5000 },
+    ];
+
+    const svg = generateActivitySVG(dailyExperience, 'dark');
+    const opacities = [...svg.matchAll(/fill-opacity="([\d.]+)"/g)].map(
+      (match) => Number(match[1]),
+    );
+
+    expect(opacities.length).toBeGreaterThan(0);
+    for (const opacity of opacities) {
+      expect(opacity).toBeGreaterThanOrEqual(0.3);
+    }
+  });
+
   it('renders with a border by default', () => {
     const svg = generateActivitySVG([], 'dark');
     expect(svg).toContain('stroke="#fff"');
@@ -152,5 +176,26 @@ describe('generateActivitySVG', () => {
       const lastColCount = validXPositions.filter((x) => x === lastColX).length;
       expect(lastColCount).toBe(2); // Only Monday and Tuesday on last column
     });
+  });
+});
+
+describe('activityQuartiles / activityLevel', () => {
+  it('returns [0, 0, 0] for no non-zero values', () => {
+    expect(activityQuartiles([])).toEqual([0, 0, 0]);
+  });
+
+  it('buckets values into levels 0-3 by quartile', () => {
+    const values = [1, 2, 3, 4, 100, 200, 300, 400];
+    const quartiles = activityQuartiles(values); // [3, 100, 300]
+
+    expect(activityLevel(3, quartiles)).toBe(0);
+    expect(activityLevel(100, quartiles)).toBe(1);
+    expect(activityLevel(300, quartiles)).toBe(2);
+    expect(activityLevel(400, quartiles)).toBe(3);
+  });
+
+  it('puts every value in level 0 when activity is flat', () => {
+    const quartiles = activityQuartiles([50, 50, 50]);
+    expect(activityLevel(50, quartiles)).toBe(0);
   });
 });
