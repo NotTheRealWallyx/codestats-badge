@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import BadgePreview from './components/BadgePreview';
 import CodeChip from './components/CodeChip';
-import CopyButton from './components/CopyButton';
 import FeatureCard from './components/FeatureCard';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
 import Navbar from './components/Navbar';
 import SectionHeader from './components/SectionHeader';
+import SnippetBlock from './components/SnippetBlock';
 
 const xpBadges = [
   {
@@ -78,16 +78,22 @@ const features = [
   },
 ];
 
-export default function Home() {
-  const xpSnippet =
-    '![Code::Stats](https://codestats-badge.vercel.app/api/code-stats?user=YOUR_USERNAME)';
-  const activitySnippet =
-    '![Activity](https://codestats-badge.vercel.app/api/code-stats/activity?user=YOUR_USERNAME)';
+const snippets = [
+  {
+    title: 'XP Badge',
+    snippet:
+      '![Code::Stats](https://codestats-badge.vercel.app/api/code-stats?user=YOUR_USERNAME)',
+  },
+  {
+    title: 'Activity Badge',
+    snippet:
+      '![Activity](https://codestats-badge.vercel.app/api/code-stats/activity?user=YOUR_USERNAME)',
+  },
+];
 
+export default function Home() {
   return (
-    <div
-      style={{ minHeight: '100vh', background: '#09090b', color: '#fafafa' }}
-    >
+    <div className="min-h-screen bg-zinc-950 text-zinc-50">
       <Navbar />
 
       <Hero />
@@ -144,21 +150,8 @@ export default function Home() {
       </section>
 
       {/* ── Quick Start ── */}
-      <section
-        style={{
-          background: 'rgba(255,255,255,0.02)',
-          borderTop: '1px solid rgba(255,255,255,0.06)',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: '48rem',
-            margin: '0 auto',
-            padding: '5rem 1.5rem',
-            textAlign: 'center',
-          }}
-        >
+      <section className="border-y border-white/6 bg-white/2">
+        <div className="mx-auto max-w-3xl px-6 py-20 text-center">
           <SectionHeader
             title="Add to your README in"
             highlight="seconds"
@@ -172,42 +165,9 @@ export default function Home() {
             with your Code::Stats username
           </SectionHeader>
 
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1.25rem',
-              textAlign: 'left',
-            }}
-          >
-            {[
-              { title: 'XP Badge', snippet: xpSnippet },
-              { title: 'Activity Badge', snippet: activitySnippet },
-            ].map(({ title, snippet }) => (
-              <div key={title}>
-                <p
-                  style={{
-                    fontSize: '0.75rem',
-                    color: '#71717a',
-                    marginBottom: '0.5rem',
-                    fontWeight: 600,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.06em',
-                  }}
-                >
-                  {title}
-                </p>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'stretch',
-                    gap: '0.5rem',
-                  }}
-                >
-                  <div className="code-block">{snippet}</div>
-                  <CopyButton text={snippet} />
-                </div>
-              </div>
+          <div className="flex flex-col gap-5 text-left">
+            {snippets.map((snippet) => (
+              <SnippetBlock key={snippet.title} {...snippet} />
             ))}
           </div>
         </div>
