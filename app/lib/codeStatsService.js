@@ -1,5 +1,8 @@
-// Use native fetch instead of axios
 import { calculateLevel, generateCompactSVG, generateSVG } from "./svg.js";
+
+function userApiUrl(username) {
+  return `https://codestats.net/api/users/${encodeURIComponent(username)}`;
+}
 
 export async function getCodeStatsSVG(username, options = {}) {
   if (!username) throw new Error("Missing username");
@@ -13,7 +16,7 @@ export async function getCodeStatsSVG(username, options = {}) {
   } = options;
 
   const langLimit = Math.max(1, Math.min(20, parseInt(limit, 10) || 6));
-  const response = await fetch(`https://codestats.net/api/users/${username}`);
+  const response = await fetch(userApiUrl(username));
   if (!response.ok) {
     throw new Error("Failed to fetch user data");
   }
@@ -43,7 +46,7 @@ export async function getCodeStatsSVG(username, options = {}) {
 export async function getDailyExperience(username) {
   if (!username) throw new Error("Missing username");
 
-  const response = await fetch(`https://codestats.net/api/users/${username}`);
+  const response = await fetch(userApiUrl(username));
   if (!response.ok) {
     throw new Error("Failed to fetch user data");
   }
