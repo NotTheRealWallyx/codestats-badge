@@ -23,23 +23,11 @@ export default function CopyButton({ text }: CopyButtonProps) {
     <button
       type="button"
       onClick={handleCopy}
-      style={{
-        flexShrink: 0,
-        padding: '0 1.125rem',
-        borderRadius: '0.75rem',
-        border: `1px solid ${copied ? 'rgba(74,222,128,0.25)' : 'rgba(255,255,255,0.08)'}`,
-        background: copied ? 'rgba(34,197,94,0.1)' : 'rgba(255,255,255,0.06)',
-        color: copied ? '#4ade80' : '#a1a1aa',
-        fontSize: '0.8125rem',
-        fontWeight: 500,
-        cursor: 'pointer',
-        transition: 'all 0.2s ease',
-        whiteSpace: 'nowrap',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.375rem',
-        minHeight: '2.75rem',
-      }}
+      className={`flex min-h-11 shrink-0 cursor-pointer items-center gap-1.5 rounded-xl border px-[1.125rem] text-[0.8125rem] font-medium whitespace-nowrap transition-all duration-200 ${
+        copied
+          ? 'border-green-400/25 bg-green-500/10 text-green-400'
+          : 'border-white/8 bg-white/6 text-zinc-400'
+      }`}
     >
       {copied ? '✓ Copied' : 'Copy'}
     </button>
