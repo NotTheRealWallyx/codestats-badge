@@ -94,18 +94,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* ── Nav / footer links ──────────────────────────── */
-.nav-link {
-  font-size: 0.875rem;
-  color: #71717a;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.nav-link:hover {
-  color: #fafafa;
-}
-
+/* ── Footer links ────────────────────────────────── */
 .footer-link {
   font-size: 0.875rem;
   color: #52525b;
