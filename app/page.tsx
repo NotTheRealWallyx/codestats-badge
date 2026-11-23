@@ -3,6 +3,7 @@ import BadgePreview from './components/BadgePreview';
 import CodeChip from './components/CodeChip';
 import CopyButton from './components/CopyButton';
 import Footer from './components/Footer';
+import Hero from './components/Hero';
 import Navbar from './components/Navbar';
 import SectionHeader from './components/SectionHeader';
 
@@ -88,134 +89,7 @@ export default function Home() {
     >
       <Navbar />
 
-      {/* ── Hero ── */}
-      <section
-        style={{
-          position: 'relative',
-          overflow: 'hidden',
-          paddingBottom: '5rem',
-        }}
-      >
-        <div className="grid-bg" style={{ position: 'absolute', inset: 0 }} />
-        <div className="hero-glow" style={{ position: 'absolute', inset: 0 }} />
-        <div
-          style={{
-            position: 'relative',
-            maxWidth: '56rem',
-            margin: '0 auto',
-            padding: '5rem 1.5rem 3rem',
-            textAlign: 'center',
-          }}
-        >
-          {/* Pill tag */}
-          <span
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.375rem',
-              padding: '0.3125rem 0.875rem',
-              borderRadius: '9999px',
-              fontSize: '0.8125rem',
-              fontWeight: 500,
-              background: 'rgba(59,130,246,0.1)',
-              border: '1px solid rgba(59,130,246,0.22)',
-              color: '#60a5fa',
-              marginBottom: '2rem',
-            }}
-          >
-            <span style={{ fontSize: '0.5rem' }}>●</span> Open Source · SVG
-            Badge Generator
-          </span>
-
-          {/* Headline */}
-          <h1
-            style={{
-              fontSize: 'clamp(2.5rem, 6.5vw, 4.5rem)',
-              fontWeight: 800,
-              lineHeight: 1.08,
-              letterSpacing: '-0.025em',
-              marginBottom: '1.25rem',
-            }}
-          >
-            Showcase Your
-            <br />
-            <span className="gradient-text">Coding Journey</span>
-          </h1>
-
-          {/* Subtext */}
-          <p
-            style={{
-              fontSize: '1.125rem',
-              color: '#71717a',
-              maxWidth: '34rem',
-              margin: '0 auto 2.5rem',
-              lineHeight: 1.7,
-            }}
-          >
-            Generate beautiful SVG badges for your{' '}
-            <a
-              href="https://codestats.net"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: '#60a5fa', textDecoration: 'none' }}
-            >
-              Code::Stats
-            </a>{' '}
-            profile. Perfect for GitHub READMEs and portfolios.
-          </p>
-
-          {/* CTAs */}
-          <div
-            style={{
-              display: 'flex',
-              gap: '0.875rem',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              marginBottom: '4rem',
-            }}
-          >
-            <a href="#showcase" className="btn-primary">
-              See Badges <span>↓</span>
-            </a>
-            <a
-              href="https://github.com/NotTheRealWallyx/codestats-badge"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-ghost"
-            >
-              <Image
-                src="/logos/github-mark-white.svg"
-                alt=""
-                width={17}
-                height={17}
-              />
-              View on GitHub
-            </a>
-          </div>
-
-          {/* Hero badge */}
-          <div
-            style={{
-              display: 'inline-block',
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.09)',
-              borderRadius: '1rem',
-              padding: '1.5rem 2rem',
-              boxShadow:
-                '0 0 80px rgba(99,102,241,0.18), 0 24px 64px rgba(0,0,0,0.5)',
-            }}
-          >
-            <Image
-              src="/badges/default-badge.svg"
-              alt="Example Code::Stats badge"
-              width={480}
-              height={140}
-              unoptimized
-              style={{ display: 'block', maxWidth: '100%' }}
-            />
-          </div>
-        </div>
-      </section>
+      <Hero />
 
       {/* ── Features ── */}
       <section
