@@ -114,14 +114,7 @@ export default function Home() {
         </SectionHeader>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-[1.125rem]">
           {xpBadges.map((badge) => (
-            <BadgePreview
-              key={badge.param}
-              src={badge.src}
-              alt={badge.alt}
-              label={badge.label}
-              param={badge.param}
-              desc={badge.desc}
-            />
+            <BadgePreview key={badge.param} {...badge} />
           ))}
         </div>
       </section>

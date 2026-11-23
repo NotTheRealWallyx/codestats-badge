@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import './styles.css';
+import CodeChip from '../CodeChip';
 
 interface BadgePreviewProps {
   src: string;
@@ -17,24 +17,28 @@ export default function BadgePreview({
   desc,
 }: BadgePreviewProps) {
   return (
-    <div className="badge-card glass-card">
+    <div className="glass-card flex flex-col gap-3.5 p-5">
       {(label || param) && (
-        <div className="badge-card-header">
-          {label && <span className="badge-card-label">{label}</span>}
-          {param && <code className="badge-card-param">{param}</code>}
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          {label && (
+            <span className="text-sm font-semibold text-zinc-200">{label}</span>
+          )}
+          {param && <CodeChip size="sm">{param}</CodeChip>}
         </div>
       )}
-      <div className="badge-card-image">
+      <div className="flex items-center justify-center overflow-hidden rounded-lg bg-black/25 px-3 py-4">
         <Image
           src={src}
           alt={alt}
           width={480}
           height={140}
           unoptimized
-          style={{ display: 'block', maxWidth: '100%', height: 'auto' }}
+          className="block h-auto max-w-full"
         />
       </div>
-      {desc && <p className="badge-card-desc">{desc}</p>}
+      {desc && (
+        <p className="text-[0.8125rem] leading-[1.5] text-zinc-500">{desc}</p>
+      )}
     </div>
   );
 }
