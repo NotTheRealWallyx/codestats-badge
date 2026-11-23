@@ -15,6 +15,12 @@ const mockUserData = {
   },
 };
 
+const usernameUrlCases = [
+  ["Wallyx", "https://codestats.net/api/users/Wallyx"],
+  ["foo/../bar", "https://codestats.net/api/users/foo%2F..%2Fbar"],
+  ["a b?x#y", "https://codestats.net/api/users/a%20b%3Fx%23y"],
+];
+
 describe("getCodeStatsSVG", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -73,9 +79,32 @@ describe("getCodeStatsSVG", () => {
     expect(svg).toContain('stroke="none"');
     expect(svg).not.toContain('stroke="#fff"');
   });
+
+  it.each(usernameUrlCases)(
+    "should URL-encode username %j in the upstream request",
+    async (username, expectedUrl) => {
+      globalAny.fetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockUserData,
+      });
+      await getCodeStatsSVG(username);
+      expect(globalAny.fetch).toHaveBeenCalledWith(expectedUrl);
+    }
+  );
 });
 
 describe("getDailyExperience", () => {
+  it.each(usernameUrlCases)(
+    "should URL-encode username %j in the upstream request",
+    async (username, expectedUrl) => {
+      globalAny.fetch = vi.fn(() =>
+        Promise.resolve({ ok: true, json: () => Promise.resolve({ dates: {} }) })
+      );
+      await getDailyExperience(username);
+      expect(globalAny.fetch).toHaveBeenCalledWith(expectedUrl);
+    }
+  );
+
   it("should throw an error if username is missing", async () => {
     await expect(getDailyExperience()).rejects.toThrow("Missing username");
   });
