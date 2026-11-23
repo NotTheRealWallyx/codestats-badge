@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme inline {
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
 :root {
   --bg-primary: #09090b;
   --border-subtle: rgba(255, 255, 255, 0.07);

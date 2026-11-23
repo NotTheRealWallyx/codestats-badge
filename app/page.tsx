@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import BadgePreview from './components/BadgePreview';
+import CodeChip from './components/CodeChip';
 import CopyButton from './components/CopyButton';
+import SectionHeader from './components/SectionHeader';
 
 const xpBadges = [
   {
@@ -331,21 +333,9 @@ export default function Home() {
           padding: '3rem 1.5rem 4rem',
         }}
       >
-        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <h2
-            style={{
-              fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
-              fontWeight: 700,
-              letterSpacing: '-0.02em',
-              marginBottom: '0.625rem',
-            }}
-          >
-            XP Badge <span className="gradient-text">Variants</span>
-          </h2>
-          <p style={{ color: '#71717a', fontSize: '1rem' }}>
-            Customize with query parameters appended to the API URL
-          </p>
-        </div>
+        <SectionHeader title="XP Badge" highlight="Variants" className="mb-12">
+          Customize with query parameters appended to the API URL
+        </SectionHeader>
         <div
           style={{
             display: 'grid',
@@ -374,21 +364,9 @@ export default function Home() {
           padding: '1rem 1.5rem 5rem',
         }}
       >
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <h2
-            style={{
-              fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
-              fontWeight: 700,
-              letterSpacing: '-0.02em',
-              marginBottom: '0.625rem',
-            }}
-          >
-            Activity <span className="gradient-text">Badge</span>
-          </h2>
-          <p style={{ color: '#71717a', fontSize: '1rem' }}>
-            Visualize your daily coding contributions as activity squares
-          </p>
-        </div>
+        <SectionHeader title="Activity" highlight="Badge" className="mb-10">
+          Visualize your daily coding contributions as activity squares
+        </SectionHeader>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div
             className="glass-card"
@@ -420,19 +398,7 @@ export default function Home() {
               }}
             >
               <span>Endpoint:</span>
-              <code
-                style={{
-                  color: '#60a5fa',
-                  background: 'rgba(59,130,246,0.1)',
-                  border: '1px solid rgba(59,130,246,0.18)',
-                  padding: '0.15rem 0.5rem',
-                  borderRadius: '0.375rem',
-                  fontFamily: 'var(--font-geist-mono, monospace)',
-                  fontSize: '0.75rem',
-                }}
-              >
-                /api/code-stats/activity?user=Wallyx
-              </code>
+              <CodeChip>/api/code-stats/activity?user=Wallyx</CodeChip>
             </div>
           </div>
         </div>
@@ -454,35 +420,18 @@ export default function Home() {
             textAlign: 'center',
           }}
         >
-          <h2
-            style={{
-              fontSize: 'clamp(1.75rem, 4vw, 2.25rem)',
-              fontWeight: 700,
-              letterSpacing: '-0.02em',
-              marginBottom: '0.625rem',
-            }}
-          >
-            Add to your README in <span className="gradient-text">seconds</span>
-          </h2>
-          <p
-            style={{
-              color: '#71717a',
-              marginBottom: '2.5rem',
-              lineHeight: 1.7,
-            }}
+          <SectionHeader
+            title="Add to your README in"
+            highlight="seconds"
+            size="md"
+            className="mb-10"
           >
             Replace{' '}
-            <code
-              style={{
-                color: '#60a5fa',
-                fontFamily: 'var(--font-geist-mono, monospace)',
-                fontSize: '0.875rem',
-              }}
-            >
+            <code className="font-mono text-sm text-blue-400">
               YOUR_USERNAME
             </code>{' '}
             with your Code::Stats username
-          </p>
+          </SectionHeader>
 
           <div
             style={{
