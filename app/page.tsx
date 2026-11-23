@@ -2,6 +2,7 @@ import Image from 'next/image';
 import BadgePreview from './components/BadgePreview';
 import CodeChip from './components/CodeChip';
 import CopyButton from './components/CopyButton';
+import FeatureCard from './components/FeatureCard';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
 import Navbar from './components/Navbar';
@@ -92,72 +93,20 @@ export default function Home() {
       <Hero />
 
       {/* ── Features ── */}
-      <section
-        style={{
-          maxWidth: '72rem',
-          margin: '0 auto',
-          padding: '4rem 1.5rem',
-        }}
-      >
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: '1.125rem',
-          }}
-        >
-          {features.map((f) => (
-            <div
-              key={f.title}
-              className="glass-card"
-              style={{ padding: '1.75rem' }}
-            >
-              <div style={{ fontSize: '2rem', marginBottom: '0.875rem' }}>
-                {f.icon}
-              </div>
-              <h3
-                style={{
-                  fontWeight: 700,
-                  fontSize: '0.9375rem',
-                  marginBottom: '0.5rem',
-                  color: '#fafafa',
-                }}
-              >
-                {f.title}
-              </h3>
-              <p
-                style={{
-                  fontSize: '0.875rem',
-                  color: '#71717a',
-                  lineHeight: 1.6,
-                }}
-              >
-                {f.desc}
-              </p>
-            </div>
+      <section className="mx-auto max-w-6xl px-6 py-16">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-[1.125rem]">
+          {features.map((feature) => (
+            <FeatureCard key={feature.title} {...feature} />
           ))}
         </div>
       </section>
 
       {/* ── Badge Showcase ── */}
-      <section
-        id="showcase"
-        style={{
-          maxWidth: '72rem',
-          margin: '0 auto',
-          padding: '3rem 1.5rem 4rem',
-        }}
-      >
+      <section id="showcase" className="mx-auto max-w-6xl px-6 pt-12 pb-16">
         <SectionHeader title="XP Badge" highlight="Variants" className="mb-12">
           Customize with query parameters appended to the API URL
         </SectionHeader>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '1.125rem',
-          }}
-        >
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-[1.125rem]">
           {xpBadges.map((badge) => (
             <BadgePreview
               key={badge.param}
@@ -172,46 +121,21 @@ export default function Home() {
       </section>
 
       {/* ── Activity Badge ── */}
-      <section
-        style={{
-          maxWidth: '72rem',
-          margin: '0 auto',
-          padding: '1rem 1.5rem 5rem',
-        }}
-      >
+      <section className="mx-auto max-w-6xl px-6 pt-4 pb-20">
         <SectionHeader title="Activity" highlight="Badge" className="mb-10">
           Visualize your daily coding contributions as activity squares
         </SectionHeader>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div
-            className="glass-card"
-            style={{
-              padding: '2rem',
-              display: 'inline-flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '1.125rem',
-              width: '100%',
-              maxWidth: '640px',
-            }}
-          >
+        <div className="flex justify-center">
+          <div className="glass-card inline-flex w-full max-w-[640px] flex-col items-center gap-[1.125rem] p-8">
             <Image
               src="/badges/activity.svg"
               alt="Activity badge"
               width={540}
               height={120}
               unoptimized
-              style={{ display: 'block', maxWidth: '100%' }}
+              className="block max-w-full"
             />
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                fontSize: '0.8125rem',
-                color: '#71717a',
-              }}
-            >
+            <div className="flex items-center gap-2 text-[0.8125rem] text-zinc-500">
               <span>Endpoint:</span>
               <CodeChip>/api/code-stats/activity?user=Wallyx</CodeChip>
             </div>
