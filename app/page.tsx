@@ -2,6 +2,8 @@ import Image from 'next/image';
 import BadgePreview from './components/BadgePreview';
 import CodeChip from './components/CodeChip';
 import CopyButton from './components/CopyButton';
+import Footer from './components/Footer';
+import Navbar from './components/Navbar';
 import SectionHeader from './components/SectionHeader';
 
 const xpBadges = [
@@ -84,68 +86,7 @@ export default function Home() {
     <div
       style={{ minHeight: '100vh', background: '#09090b', color: '#fafafa' }}
     >
-      {/* ── Navbar ── */}
-      <nav
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 50,
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
-          background: 'rgba(9,9,11,0.85)',
-          backdropFilter: 'blur(14px)',
-          WebkitBackdropFilter: 'blur(14px)',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: '72rem',
-            margin: '0 auto',
-            padding: '0.875rem 1.5rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <div
-            style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}
-          >
-            <Image
-              src="/logos/badge-logo.svg"
-              alt="Code::Stats Badge"
-              width={30}
-              height={30}
-            />
-            <span
-              style={{
-                fontWeight: 700,
-                fontSize: '0.9375rem',
-                color: '#fafafa',
-              }}
-            >
-              Code::Stats Badge
-            </span>
-          </div>
-          <div
-            style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}
-          >
-            <a
-              href="https://github.com/NotTheRealWallyx/codestats-badge"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-ghost"
-              style={{ padding: '0.4375rem 1rem', fontSize: '0.875rem' }}
-            >
-              <Image
-                src="/logos/github-mark-white.svg"
-                alt=""
-                width={16}
-                height={16}
-              />
-              GitHub
-            </a>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* ── Hero ── */}
       <section
@@ -474,50 +415,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer
-        style={{
-          maxWidth: '72rem',
-          margin: '0 auto',
-          padding: '2.5rem 1.5rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '1.25rem',
-          borderTop: '1px solid rgba(255,255,255,0.04)',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
-          <Image
-            src="/logos/badge-logo.svg"
-            alt="Code::Stats Badge"
-            width={24}
-            height={24}
-            style={{ opacity: 0.6 }}
-          />
-          <span style={{ fontSize: '0.8125rem', color: '#52525b' }}>
-            Code::Stats Badge · GPL v3 License
-          </span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <a
-            href="https://github.com/NotTheRealWallyx/codestats-badge"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="footer-link"
-          >
-            <Image
-              src="/logos/github-mark-white.svg"
-              alt=""
-              width={15}
-              height={15}
-              style={{ opacity: 0.5 }}
-            />
-            GitHub
-          </a>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
